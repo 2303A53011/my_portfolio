@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap:https://fazal-portfolio.onrender.com/sitemap.xml
+Sitemap:https://fazalportfolio.online/robots.txt
