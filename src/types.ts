@@ -6,6 +6,9 @@ export interface Project {
   stack: string[];
   preview: string;
   description: string;
+  image?: string;
+  githubLink?: string;
+  notesLink?: string;
 }
 
 export interface Certification {

@@ -71,6 +71,17 @@ export const skillGroups: SkillGroup[] = [
 
 export const projects: Project[] = [
   {
+    id: 'data-exfiltration-detection',
+    title: 'Data Exfiltration Detection - Comprehensive Study Notes',
+    tagline: 'Complete notes covering detection techniques for DNS tunneling, HTTP exfiltration, encrypted channels, and SIEM rules',
+    tags: ['SOC', 'Blue Team', 'Detection Engineering', 'SIEM', 'Threat Hunting'],
+    stack: ['Splunk', 'Wireshark', 'Zeek', 'Sysmon', 'ELK Stack', 'MITRE ATT&CK', 'Suricata'],
+    preview: 'dashboard',
+    image: '/project-1.png',
+    notesLink: '/tryhackme-notes/data-exfiltration-detection.md',
+    description: 'Comprehensive study notes from TryHackMe\'s Data Exfiltration Detection room, covering all aspects of detecting and preventing data exfiltration. Topics include network-based detection, host-based indicators, DNS tunneling analysis, HTTP/HTTPS exfiltration patterns, encrypted channel detection, SIEM rule creation, and practical lab scenarios. Includes detection queries for Splunk, ELK, and QRadar, MITRE ATT&CK framework mapping, and real-world investigation methodologies. Complete with code examples, detection rules, and best practices for SOC analysts.',
+  },
+  {
     id: 'Enterprise-soc-lab',
     title: 'Integrated Network & Host Monitoring for Enterprise Infrastructure',
     tagline: 'Unified SOC environment integrating SIEM, IDS, and automation for real-world defense simulation',

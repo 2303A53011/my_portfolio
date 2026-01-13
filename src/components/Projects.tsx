@@ -89,6 +89,17 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
                         View Details
                         <ExternalLink size={14} />
                       </button>
+                      {project.notesLink && (
+                        <a
+                          href={project.notesLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-4 py-3 bg-purple-500/10 text-purple-400 rounded-lg font-medium border border-purple-500/30 hover:bg-purple-500 hover:text-white transition-all duration-300 flex items-center gap-2"
+                          title="View Notes"
+                        >
+                          📝
+                        </a>
+                      )}
                       {project.githubLink && (
                         <a
                           href={project.githubLink}
@@ -191,17 +202,29 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
                   </div>
                 </div>
 
-                {selectedProject.githubLink && (
-                  <div className="pt-4 border-t border-slate-700">
-                    <a
-                      href={selectedProject.githubLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-lg font-medium hover:bg-teal-600 transition-colors"
-                    >
-                      <Github size={18} />
-                      View on GitHub
-                    </a>
+                {(selectedProject.githubLink || selectedProject.notesLink) && (
+                  <div className="pt-4 border-t border-slate-700 flex gap-3">
+                    {selectedProject.notesLink && (
+                      <a
+                        href={selectedProject.notesLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-purple-500 text-white rounded-lg font-medium hover:bg-purple-600 transition-colors"
+                      >
+                        📝 View Notes
+                      </a>
+                    )}
+                    {selectedProject.githubLink && (
+                      <a
+                        href={selectedProject.githubLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-lg font-medium hover:bg-teal-600 transition-colors"
+                      >
+                        <Github size={18} />
+                        View on GitHub
+                      </a>
+                    )}
                   </div>
                 )}
               </div>
