@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  
   theme: {
     extend: {
       animation: {
@@ -28,8 +29,24 @@ export default {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(-360deg)' },
         },
+        'spin-reverse': {
+          '0%': { transform: 'rotate(360deg)' },
+          '100%': { transform: 'rotate(0deg)' },
+        },
+        // --- New Glass/Cyber Keyframes ---
+        scan: {
+          '0%': { transform: 'translateY(-120px)', opacity: '0' },
+          '50%': { opacity: '0.5' },
+          '100%': { transform: 'translateY(120px)', opacity: '0' },
+        },
+        progress: {
+          '0%': { width: '0%', marginLeft: '0%' },
+          '50%': { width: '100%', marginLeft: '0%' },
+          '100%': { width: '0%', marginLeft: '100%' },
+        },
       },
     },
   },
   plugins: [],
 };
+
