@@ -34,12 +34,12 @@ export default function Hero({ fullName, tagline }: HeroProps) {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8 animate-fade-in">
             <div className="space-y-6">
-              <div className="inline-block">
+              {/* <div className="inline-block">
                 <div className="flex items-center gap-2 px-4 py-2 bg-teal-500/10 border border-teal-500/30 rounded-full backdrop-blur-sm animate-bounce" style={{ animationDelay: '0.5s' }}>
                   <Zap size={16} className="text-teal-400" />
                   <span className="text-teal-400 text-sm font-medium">Cyber Defense Engineer</span>
                 </div>
-              </div>
+              </div> */}
 
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
                 {fullName.split(' ').map((word, index) => (
@@ -92,23 +92,50 @@ export default function Hero({ fullName, tagline }: HeroProps) {
           </div>
 
           <div className="relative hidden lg:block">
-            <div className="relative w-full h-[500px] flex items-center justify-center">
-              <div className="absolute -inset-0 bg-gradient-to-r from-teal-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse" />
+            <div className="relative w-full h-[600px] flex items-center justify-center">
 
-              <div className="relative w-80 h-80 border-2 border-teal-500/30 rounded-full flex items-center justify-center animate-spin-slow transition-all duration-500 hover:border-teal-500/60">
-                <div className="absolute inset-8 border-2 border-purple-500/30 rounded-full animate-spin-reverse transition-all duration-500" />
-                <div className="absolute inset-16 border-2 border-teal-500/30 rounded-full animate-spin-slow" />
+              {/* 1. Large Ambient Glow (Behind everything) */}
+              <div className="absolute w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[120px] animate-pulse" />
 
-                <div className="relative z-10 text-center space-y-4">
-                  <div className="text-6xl animate-bounce" style={{ animationDelay: '0s' }}>🛡️</div>
-                  <div className="text-sm text-teal-400 font-mono animate-pulse">SECURING</div>
-                  <div className="text-sm text-purple-400 font-mono animate-pulse" style={{ animationDelay: '0.5s' }}>THE DIGITAL</div>
-                  <div className="text-sm text-teal-400 font-mono animate-pulse">FRONTIER</div>
+              <div className="relative w-96 h-96">
+
+                {/* 2. Outer Rotating "Scanner" Ring */}
+                <div className="absolute inset-0 rounded-full border border-white/5 animate-[spin_15s_linear_infinite] before:content-[''] before:absolute before:inset-[-2px] before:rounded-full before:border-t-2 before:border-teal-500/40" />
+
+                {/* 3. The "Glass Sphere" Core */}
+                <div className="absolute inset-10 rounded-full bg-white/5 backdrop-blur-md border border-white/10 shadow-[inset_0_0_40px_rgba(255,255,255,0.05),0_20_50px_rgba(0,0,0,0.3)] flex items-center justify-center overflow-hidden group hover:border-teal-500/30 transition-all duration-700">
+
+                  {/* Moving "Scan Line" inside the glass */}
+                  <div className="absolute w-full h-1 bg-gradient-to-r from-transparent via-teal-500/20 to-transparent -translate-y-40 animate-[scan_4s_ease-in-out_infinite]" />
+
+                  {/* Center Content */}
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div className="relative">
+                      {/* Shield Icon with a "Glow" behind it */}
+                      <div className="absolute inset-0 bg-teal-500/20 blur-xl rounded-full animate-pulse" />
+                      <svg className="w-16 h-16 text-white drop-shadow-2xl" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                      </svg>
+                    </div>
+                    <p className="mt-4 font-mono text-[10px] tracking-[0.4em] text-teal-400 uppercase">System Active</p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="absolute top-12 right-12 w-24 h-24 border border-teal-500/20 rounded-lg animate-fadeIn" style={{ animationDelay: '1.5s' }} />
-              <div className="absolute bottom-12 left-12 w-16 h-16 border border-purple-500/20 rounded-full animate-fadeIn" style={{ animationDelay: '1.8s' }} />
+                {/* 4. Floating "Data Glass" Cards (Orbiting the orb) */}
+                <div className="absolute -top-4 -right-4 w-24 h-12 bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg p-2 animate-bounce [animation-duration:5s] flex flex-col justify-center">
+                  <div className="w-full h-1 bg-teal-500/30 rounded-full overflow-hidden">
+                    <div className="w-2/3 h-full bg-teal-400 animate-[progress_2s_ease-in-out_infinite]" />
+                  </div>
+                  <span className="text-[8px] text-white/50 font-mono mt-1">THREAT_SCAN</span>
+                </div>
+
+                <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-purple-500/5 backdrop-blur-lg border border-purple-500/20 rounded-full animate-pulse flex items-center justify-center">
+                  <span className="text-purple-400 font-mono text-[10px] animate-pulse">99%</span>
+                </div>
+
+                {/* 5. Extra Detail: Circular Particles */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-dashed border-white/5 rounded-full animate-[spin_60s_linear_infinite]" />
+              </div>
             </div>
           </div>
         </div>
