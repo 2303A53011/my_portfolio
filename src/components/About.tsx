@@ -1,7 +1,6 @@
 import { Linkedin, Github, MapPin, Briefcase, Clock, Shield } from 'lucide-react';
 
 interface AboutProps {
-  role: string;
   location: string;
   availability: string;
   aboutText: string[];
@@ -12,7 +11,7 @@ interface AboutProps {
   };
 }
 
-export default function About({ role, location, availability, aboutText, social }: AboutProps) {
+export default function About({location, availability, aboutText, social }: AboutProps) {
   return (
     <section id="about" className="relative py-24 bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,10 +39,6 @@ export default function About({ role, location, availability, aboutText, social 
             ))}
 
             <div className="pt-6 space-y-4 border-t border-slate-800">
-              <div className="flex items-center gap-3 text-gray-300">
-                <Briefcase size={20} className="text-teal-400" />
-                <span className="font-medium">{role}</span>
-              </div>
               <div className="flex items-center gap-3 text-gray-300">
                 <MapPin size={20} className="text-teal-400" />
                 <span>{location}</span>
