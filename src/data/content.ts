@@ -126,7 +126,7 @@ export const certifications: Certification[] = [
     id: 'azure-ai-fundamentals',
     title: 'Microsoft Certified: Azure AI Fundamentals',
     issuer: 'Microsoft',
-    issuerLogo: '/public/microsoft.svg',
+    issuerLogo: '/microsoft.png',
     dateIssued: '2025-09-11',
     credentialId: '',
     verifyLink: 'https://drive.google.com/file/d/1nkrnjini5LUYdIwGguNuG3IpJZYos5Np/view?usp=sharing',
@@ -153,4 +153,5 @@ export const certifications: Certification[] = [
     certificateUrl: '/certificates/networking-basics.png',
   },
 ];
+
 
