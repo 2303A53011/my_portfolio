@@ -100,7 +100,7 @@ export default function Footer({ fullName, social }: FooterProps) {
             <h3 className="text-white font-bold mb-4">Resources</h3>
             <div className="space-y-2">
               <a
-                href="https://drive.google.com/file/d/1NXLC1-FxHofBW8TusjvU0rQ3dnK-h9w-/view?usp=sharing"
+                href="https://drive.google.com/file/d/1s71rYb1Hb3lvGIGYwU0901IAPmnUarny/view?usp=drive_link"
                 download 
                 className="flex items-center gap-2 text-gray-400 hover:text-teal-400 transition-colors text-sm"
                 target='_blank'
@@ -130,3 +130,4 @@ export default function Footer({ fullName, social }: FooterProps) {
     </footer>
   );
 }
+
