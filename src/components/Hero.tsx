@@ -81,7 +81,7 @@ export default function Hero({ fullName, tagline }: HeroProps) {
               </button>
 
               <a
-                href="https://drive.google.com/file/d/1NXLC1-FxHofBW8TusjvU0rQ3dnK-h9w-/view?usp=sharing"
+                href="https://drive.google.com/file/d/1s71rYb1Hb3lvGIGYwU0901IAPmnUarny/view?usp=drive_link"
                 download target='_blank'
                 className="group px-8 py-4 border-2 border-teal-400 text-teal-400 rounded-lg font-medium transition-all duration-300 hover:bg-teal-400 hover:text-slate-950 hover:shadow-lg hover:shadow-teal-400/50 hover:-translate-y-0.5 flex items-center justify-center gap-2"
               >
@@ -153,3 +153,4 @@ export default function Hero({ fullName, tagline }: HeroProps) {
     </section>
   );
 }
+
