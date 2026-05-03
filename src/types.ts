@@ -28,3 +28,17 @@ export interface SkillGroup {
   category: string;
   skills: Skill[];
 }
+
+export interface Experience {
+  id: string;
+  role: string;
+  company: string;
+  companyUrl?: string;
+  type: 'work' | 'internship' | 'freelance' | 'volunteer';
+  location: string;
+  startDate: string;
+  endDate: string | 'Present';
+  description: string;
+  highlights: string[];
+  stack: string[];
+}

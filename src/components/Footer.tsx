@@ -34,7 +34,8 @@ export default function Footer({ fullName, social }: FooterProps) {
           <div className="space-y-4">
             <div className="text-xl font-bold text-white">
               <span className="text-teal-400">&lt;</span>
-              <span className="text-teal-400">/&gt;</span>
+            Fazal
+            <span className="text-teal-400">/&gt;</span>
             </div>
             <p className="text-gray-400 text-sm">
               Securing the digital frontier, one vulnerability at a time.
@@ -84,7 +85,7 @@ export default function Footer({ fullName, social }: FooterProps) {
           <div>
             <h3 className="text-white font-bold mb-4">Quick Links</h3>
             <div className="space-y-2">
-              {['Home', 'About', 'Skills', 'Projects', 'Certifications', 'Contact'].map((item) => (
+              {['Home', 'About', 'Skills', 'Experience', 'Projects', 'Certifications', 'Contact'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
@@ -100,7 +101,7 @@ export default function Footer({ fullName, social }: FooterProps) {
             <h3 className="text-white font-bold mb-4">Resources</h3>
             <div className="space-y-2">
               <a
-                href="https://drive.google.com/file/d/1s71rYb1Hb3lvGIGYwU0901IAPmnUarny/view?usp=drive_link"
+                href="https://drive.google.com/file/d/1Qbgcs-f-xU2Eg7-2_tuhmQ3j6g2gpkjd/view?usp=sharing"
                 download 
                 className="flex items-center gap-2 text-gray-400 hover:text-teal-400 transition-colors text-sm"
                 target='_blank'
@@ -109,7 +110,7 @@ export default function Footer({ fullName, social }: FooterProps) {
                 Download Resume 
               </a>
               <a
-                href="mailto:contact@example.com"
+                href="mailto:work.fazalshaik@gmail.com"
                 className="block text-gray-400 hover:text-teal-400 transition-colors text-sm"
               >
                 Email Me

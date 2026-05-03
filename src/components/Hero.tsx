@@ -1,5 +1,6 @@
 import { ArrowDown, Download, Zap } from 'lucide-react';
 import AnimatedBackground from './AnimatedBackground';
+import TypeWriter from './TypeWriter';
 
 interface HeroProps {
   fullName: string;
@@ -45,7 +46,7 @@ export default function Hero({ fullName, tagline }: HeroProps) {
                 {fullName.split(' ').map((word, index) => (
                   <span
                     key={index}
-                    className="block inline-block bg-clip-text text-transparent bg-gradient-to-r from-white via-teal-200 to-white"
+                    className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-white via-teal-200 to-white mr-4"
                     style={{
                       animation: 'fadeInUp 0.8s ease-out forwards',
                       animationDelay: `${index * 0.15}s`,
@@ -57,8 +58,9 @@ export default function Hero({ fullName, tagline }: HeroProps) {
                 ))}
               </h1>
 
-              <p className="text-xl sm:text-2xl text-teal-400 font-light tracking-wide animate-fadeIn" style={{ animationDelay: '0.6s' }}>
-                {tagline}
+
+              <p className="text-xl sm:text-2xl text-teal-400 font-light tracking-wide h-[2em]">
+                <TypeWriter text={tagline} speed={35} delay={1000} />
               </p>
             </div>
 

@@ -1,4 +1,6 @@
-import { Linkedin, Github, MapPin, Briefcase, Clock, Shield } from 'lucide-react';
+import { useState } from 'react';
+import { Linkedin, Github, MapPin, Clock, Shield, ChevronDown, ChevronUp } from 'lucide-react';
+import { useInView } from '../hooks/useInView';
 
 interface AboutProps {
   location: string;
@@ -11,10 +13,20 @@ interface AboutProps {
   };
 }
 
-export default function About({location, availability, aboutText, social }: AboutProps) {
+export default function About({ location, availability, aboutText, social }: AboutProps) {
+  const [expanded, setExpanded] = useState(false);
+  const { ref, isInView } = useInView({ threshold: 0.15 });
+
+  const visibleText = expanded ? aboutText : aboutText.slice(0, 2);
+
   return (
     <section id="about" className="relative py-24 bg-slate-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        ref={ref}
+        className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
+          isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+      >
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6 order-2 lg:order-1">
             <div className="space-y-4">
@@ -24,19 +36,31 @@ export default function About({location, availability, aboutText, social }: Abou
               <div className="h-1 w-20 bg-gradient-to-r from-teal-400 to-purple-500 rounded-full" />
             </div>
 
-            {aboutText.map((paragraph, index) => (
+            {visibleText.map((paragraph, index) => (
               <p
                 key={index}
-                className="text-gray-400 leading-relaxed"
-                style={{
-                  animation: 'fadeInUp 0.6s ease-out forwards',
-                  animationDelay: `${index * 0.1}s`,
-                  opacity: 0,
-                }}
+                className={`text-gray-400 leading-relaxed transition-all duration-500 ${
+                  isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+                style={{ transitionDelay: `${index * 100 + 200}ms` }}
               >
                 {paragraph}
               </p>
             ))}
+
+            {aboutText.length > 2 && (
+              <button
+                onClick={() => setExpanded(!expanded)}
+                className="flex items-center gap-2 text-teal-400 hover:text-teal-300 transition-colors text-sm font-medium group"
+              >
+                {expanded ? 'Show less' : 'Read more'}
+                {expanded ? (
+                  <ChevronUp size={16} className="group-hover:-translate-y-0.5 transition-transform" />
+                ) : (
+                  <ChevronDown size={16} className="group-hover:translate-y-0.5 transition-transform" />
+                )}
+              </button>
+            )}
 
             <div className="pt-6 space-y-4 border-t border-slate-800">
               <div className="flex items-center gap-3 text-gray-300">
@@ -86,11 +110,11 @@ export default function About({location, availability, aboutText, social }: Abou
               <div className="relative w-80 h-80 sm:w-96 sm:h-96 bg-slate-800 rounded-2xl overflow-hidden border-2 border-teal-500/20">
                 <img
                   src="/profile-pic-2.jpeg"
-                  alt="Profile"
+                  alt="Fazal Shaik - Profile"
                   className="w-full h-full object-cover scale-150 hover:scale-[1.25] transition-all duration-500"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = 'hello world';
+                    target.style.display = 'none';
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent opacity-60" />

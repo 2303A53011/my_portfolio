@@ -13,6 +13,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
     { id: 'skills', label: 'Skills' },
+    { id: 'experience', label: 'Experience' },
     { id: 'projects', label: 'Projects' },
     { id: 'certifications', label: 'Certifications' },
     { id: 'contact', label: 'Contact' },
@@ -57,7 +58,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
             className="text-xl font-bold text-white hover:text-teal-400 transition-colors"
           >
             <span className="text-teal-400">&lt;</span>
-            
+            Fazal
             <span className="text-teal-400">/&gt;</span>
           </button>
 

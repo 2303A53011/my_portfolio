@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Mail, Send } from 'lucide-react';
+import { Mail, Send, CheckCircle } from 'lucide-react';
+import { useInView } from '../hooks/useInView';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,8 @@ export default function Contact() {
     subject: '',
     message: '',
   });
+  const [sent, setSent] = useState(false);
+  const { ref, isInView } = useInView({ threshold: 0.15 });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -22,20 +25,24 @@ export default function Contact() {
     const mailtoLink = `mailto:work.fazalshaik@gmail.com?subject=${encodeURIComponent(
       formData.subject || 'Security Inquiry'
     )}&body=${encodeURIComponent(
-      `Name: ${formData.name}
-Email: ${formData.email}
-
-Message:
-${formData.message}`
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
     )}`;
 
-    // This opens the user's default email client safely
     window.location.href = mailtoLink;
+
+    // Show success feedback
+    setSent(true);
+    setTimeout(() => setSent(false), 5000);
   };
 
   return (
-    <section id="contact" className="relative py-24 bg-slate-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="relative py-24 bg-slate-950">
+      <div
+        ref={ref}
+        className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
+          isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+      >
 
         {/* Header */}
         <div className="text-center mb-16">
@@ -59,6 +66,19 @@ ${formData.message}`
             </span>
           </div>
 
+          {/* Success toast */}
+          {sent && (
+            <div className="mb-6 flex items-center gap-3 px-4 py-3 bg-teal-500/10 border border-teal-500/30 rounded-lg animate-fadeIn">
+              <CheckCircle size={20} className="text-teal-400 shrink-0" />
+              <p className="text-teal-400 text-sm">
+                Email client opened! If it didn't open, email me directly at{' '}
+                <a href="mailto:work.fazalshaik@gmail.com" className="underline font-medium">
+                  work.fazalshaik@gmail.com
+                </a>
+              </p>
+            </div>
+          )}
+
           {/* Form */}
           <form onSubmit={handleSend} className="space-y-6">
 
@@ -70,7 +90,7 @@ ${formData.message}`
                 placeholder="Your name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none"
+                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors"
               />
 
               <input
@@ -80,7 +100,7 @@ ${formData.message}`
                 placeholder="Your email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none"
+                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors"
               />
             </div>
 
@@ -91,7 +111,7 @@ ${formData.message}`
               placeholder="Subject (e.g. SOC Internship / Security Project)"
               value={formData.subject}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none"
+              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors"
             />
 
             <textarea
@@ -101,13 +121,13 @@ ${formData.message}`
               placeholder="Write your message here..."
               value={formData.message}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none resize-none"
+              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none resize-none transition-colors"
             />
 
             {/* CTA */}
             <button
               type="submit"
-              className="w-full px-8 py-4 bg-teal-500 text-white rounded-lg font-medium transition-all duration-300 hover:bg-teal-600 hover:shadow-lg hover:shadow-teal-500/40 flex items-center justify-center gap-2"
+              className="w-full px-8 py-4 bg-teal-500 text-white rounded-lg font-medium transition-all duration-300 hover:bg-teal-600 hover:shadow-lg hover:shadow-teal-500/40 flex items-center justify-center gap-2 hover:-translate-y-0.5"
             >
               Send Email
               <Send size={18} />

@@ -26,10 +26,6 @@ export default {
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
         'spin-reverse': {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(-360deg)' },
-        },
-        'spin-reverse': {
           '0%': { transform: 'rotate(360deg)' },
           '100%': { transform: 'rotate(0deg)' },
         },
