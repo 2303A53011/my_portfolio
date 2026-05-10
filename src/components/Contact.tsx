@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Mail, Send, CheckCircle } from 'lucide-react';
+import { Mail, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useInView } from '../hooks/useInView';
+
+type Status = 'idle' | 'sending' | 'success' | 'error';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -9,7 +11,7 @@ export default function Contact() {
     subject: '',
     message: '',
   });
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<Status>('idle');
   const { ref, isInView } = useInView({ threshold: 0.15 });
 
   const handleChange = (
@@ -19,20 +21,41 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSend = (e: React.FormEvent) => {
+  const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
+    setStatus('sending');
 
-    const mailtoLink = `mailto:work.fazalshaik@gmail.com?subject=${encodeURIComponent(
-      formData.subject || 'Security Inquiry'
-    )}&body=${encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-    )}`;
+    try {
+      // Primary: Formspree — replace YOUR_FORM_ID with your actual Formspree form ID
+      const res = await fetch('https://formspree.io/f/xlgzolak', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
 
-    window.location.href = mailtoLink;
-
-    // Show success feedback
-    setSent(true);
-    setTimeout(() => setSent(false), 5000);
+      if (res.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setStatus('idle'), 6000);
+      } else {
+        throw new Error('Formspree error');
+      }
+    } catch {
+      // Fallback: open mailto in a new tab so user stays on the page
+      const mailtoLink = `mailto:work.fazalshaik@gmail.com?subject=${encodeURIComponent(
+        formData.subject || 'Security Inquiry'
+      )}&body=${encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      )}`;
+      window.open(mailtoLink, '_blank');
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 6000);
+    }
   };
 
   return (
@@ -67,11 +90,21 @@ export default function Contact() {
           </div>
 
           {/* Success toast */}
-          {sent && (
-            <div className="mb-6 flex items-center gap-3 px-4 py-3 bg-teal-500/10 border border-teal-500/30 rounded-lg animate-fadeIn">
+          {status === 'success' && (
+            <div className="mb-6 flex items-center gap-3 px-4 py-3 bg-teal-500/10 border border-teal-500/30 rounded-lg">
               <CheckCircle size={20} className="text-teal-400 shrink-0" />
               <p className="text-teal-400 text-sm">
-                Email client opened! If it didn't open, email me directly at{' '}
+                Message sent! I'll get back to you soon. 🎉
+              </p>
+            </div>
+          )}
+
+          {/* Error / mailto fallback toast */}
+          {status === 'error' && (
+            <div className="mb-6 flex items-center gap-3 px-4 py-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+              <AlertCircle size={20} className="text-amber-400 shrink-0" />
+              <p className="text-amber-400 text-sm">
+                Couldn't send automatically. Your email client has opened as a fallback — or email me directly at{' '}
                 <a href="mailto:work.fazalshaik@gmail.com" className="underline font-medium">
                   work.fazalshaik@gmail.com
                 </a>
@@ -90,7 +123,8 @@ export default function Contact() {
                 placeholder="Your name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors"
+                disabled={status === 'sending'}
+                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors disabled:opacity-50"
               />
 
               <input
@@ -100,7 +134,8 @@ export default function Contact() {
                 placeholder="Your email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors"
+                disabled={status === 'sending'}
+                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors disabled:opacity-50"
               />
             </div>
 
@@ -111,7 +146,8 @@ export default function Contact() {
               placeholder="Subject (e.g. SOC Internship / Security Project)"
               value={formData.subject}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors"
+              disabled={status === 'sending'}
+              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors disabled:opacity-50"
             />
 
             <textarea
@@ -121,16 +157,32 @@ export default function Contact() {
               placeholder="Write your message here..."
               value={formData.message}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none resize-none transition-colors"
+              disabled={status === 'sending'}
+              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none resize-none transition-colors disabled:opacity-50"
             />
 
             {/* CTA */}
             <button
               type="submit"
-              className="w-full px-8 py-4 bg-teal-500 text-white rounded-lg font-medium transition-all duration-300 hover:bg-teal-600 hover:shadow-lg hover:shadow-teal-500/40 flex items-center justify-center gap-2 hover:-translate-y-0.5"
+              disabled={status === 'sending' || status === 'success'}
+              className="w-full px-8 py-4 bg-teal-500 text-white rounded-lg font-medium transition-all duration-300 hover:bg-teal-600 hover:shadow-lg hover:shadow-teal-500/40 flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
             >
-              Send Email
-              <Send size={18} />
+              {status === 'sending' ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  Sending...
+                </>
+              ) : status === 'success' ? (
+                <>
+                  <CheckCircle size={18} />
+                  Message Sent!
+                </>
+              ) : (
+                <>
+                  Send Message
+                  <Send size={18} />
+                </>
+              )}
             </button>
           </form>
 
