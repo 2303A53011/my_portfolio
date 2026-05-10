@@ -5,6 +5,8 @@ export interface Project {
   tags: string[];
   stack: string[];
   preview: string;
+  image?: string;
+  githubLink?: string;
   description: string;
 }
 

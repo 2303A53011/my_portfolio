@@ -119,6 +119,17 @@ export const projects: Project[] = [
     githubLink: 'https://github.com/shaikfazal-del/passbolt-aws-selfhosted',
     description: 'Designed and deployed a self-hosted enterprise password management solution using Passbolt on AWS EC2. Secured the infrastructure with OpenPGP encryption for end-to-end credential protection and configured strict HTTPS/SSL standards using a custom domain. This project demonstrates proficiency in secure cloud infrastructure deployment, self-hosting practices, and applied cryptography for identity and access management.',
   },
+  {
+    id: 'tpot-honeypot-azure',
+    title: 'T-Pot Honeypot on Microsoft Azure',
+    tagline: 'Watch the internet try to break in — in real time.',
+    tags: ['Honeypot', 'Cloud Security', 'Threat Intelligence', 'Azure', 'Blue Team'],
+    stack: ['Azure', 'Ubuntu 22.04', 'Docker', 'T-Pot', 'Elasticsearch', 'Kibana', 'Logstash', 'Cowrie'],
+    preview: 'dashboard',
+    image: '/project-6.png',
+    githubLink: 'https://github.com/shaikfazal-del/threat-intel-honeypot',
+    description: 'Deployed T-Pot — a 20+ honeypot all-in-one platform — on a Microsoft Azure Ubuntu VM using the free tier. Configured a Network Security Group to expose all 65,535 ports for maximum attacker attraction, then orchestrated Cowrie (SSH/Telnet), Dionaea (malware capture), Log4Pot (Log4Shell), and 17 more honeypots via Docker Compose. Integrated the full ELK stack for real-time threat analytics: attack heatmaps, attacker geolocation, credential spray logs, and malware samples — all visualized in Kibana. Documented the complete setup with a Medium blog post covering Azure provisioning, NSG configuration, T-Pot installation, and dashboard walkthrough.',
+  },
 ];
 
 export const certifications: Certification[] = [

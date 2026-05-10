@@ -59,7 +59,7 @@ export default function Hero({ fullName, tagline }: HeroProps) {
               </h1>
 
 
-              <p className="text-xl sm:text-2xl text-teal-400 font-light tracking-wide h-[2em]">
+              <p className="text-xl sm:text-2xl text-teal-400 font-light tracking-wide min-h-[2em]">
                 <TypeWriter text={tagline} speed={35} delay={1000} />
               </p>
             </div>
