@@ -53,6 +53,8 @@ function ProjectCard({ project, index, isInView }: { project: Project; index: nu
         <img
           src={project.image}
           alt={project.title}
+          loading="lazy"
+          decoding="async"
           className={`w-full h-full object-cover transition-all duration-500 ${
             imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
           }`}
