@@ -10,7 +10,13 @@ export default function Certifications({ certifications }: CertificationsProps) 
   const { ref, isInView } = useInView({ threshold: 0.1 });
 
   return (
-    <section id="certifications" className="relative py-24 bg-slate-900">
+    <section
+      id="certifications"
+      className="relative py-24 bg-slate-900"
+      aria-label="Professional cybersecurity certifications of Fazal Shaik"
+      itemScope
+      itemType="https://schema.org/ItemList"
+    >
       <div ref={ref} className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -19,7 +25,7 @@ export default function Certifications({ certifications }: CertificationsProps) 
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4" itemProp="name">
             Professional <span className="text-teal-400">Certifications</span>
           </h2>
           <div className="h-1 w-20 bg-gradient-to-r from-teal-400 to-purple-500 rounded-full mx-auto mb-6" />
@@ -56,10 +62,15 @@ export default function Certifications({ certifications }: CertificationsProps) 
                     {/* Issuer Logo */}
                     <div className="w-14 h-14 bg-slate-800 rounded-xl border border-slate-700 flex items-center justify-center shrink-0">
                       <img
-                        src={cert.issuerLogo}
-                        alt={cert.issuer}
-                        className="w-10 h-10 object-contain"
-                      />
+                      src={cert.issuerLogo}
+                      alt={`${cert.issuer} logo`}
+                      title={cert.issuer}
+                      width="40"
+                      height="40"
+                      loading="lazy"
+                      decoding="async"
+                      className="w-10 h-10 object-contain"
+                    />
                     </div>
 
                     {/* Content */}

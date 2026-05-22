@@ -16,7 +16,13 @@ export default function Skills({ skillGroups }: SkillsProps) {
   const { ref, isInView } = useInView({ threshold: 0.1 });
 
   return (
-    <section id="skills" className="relative py-24 bg-slate-950">
+    <section
+      id="skills"
+      className="relative py-24 bg-slate-950"
+      aria-label="Technical skills and cybersecurity capabilities of Fazal Shaik"
+      itemScope
+      itemType="https://schema.org/ItemList"
+    >
       <div ref={ref} className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -25,7 +31,7 @@ export default function Skills({ skillGroups }: SkillsProps) {
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4" itemProp="name">
             Technical <span className="text-teal-400">Arsenal</span>
           </h2>
           <div className="h-1 w-20 bg-gradient-to-r from-teal-400 to-purple-500 rounded-full mx-auto mb-6" />
@@ -43,6 +49,9 @@ export default function Skills({ skillGroups }: SkillsProps) {
                 isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: `${groupIndex * 120 + 200}ms` }}
+              itemScope
+              itemType="https://schema.org/ListItem"
+              aria-label={`Skill category: ${group.category}`}
             >
               {/* Category with icon */}
               <div className="flex items-center gap-3 mb-2">

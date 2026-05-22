@@ -24,7 +24,13 @@ export default function Experience({ experiences }: ExperienceProps) {
   const { ref, isInView } = useInView({ threshold: 0.1 });
 
   return (
-    <section id="experience" className="relative py-24 bg-slate-900">
+    <section
+      id="experience"
+      className="relative py-24 bg-slate-900"
+      aria-label="Work experience and professional history of Fazal Shaik"
+      itemScope
+      itemType="https://schema.org/ItemList"
+    >
       <div ref={ref} className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -33,7 +39,7 @@ export default function Experience({ experiences }: ExperienceProps) {
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4" itemProp="name">
             Work <span className="text-teal-400">Experience</span>
           </h2>
           <div className="h-1 w-20 bg-gradient-to-r from-teal-400 to-purple-500 rounded-full mx-auto mb-6" />
@@ -72,7 +78,12 @@ export default function Experience({ experiences }: ExperienceProps) {
                   }`}
                   style={{ transitionDelay: `${index * 200 + 300}ms` }}
                 >
-                  <article className="group bg-slate-900/60 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 hover:border-teal-500/40 transition-all duration-300 hover:-translate-y-1">
+                  <article
+                    className="group bg-slate-900/60 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 hover:border-teal-500/40 transition-all duration-300 hover:-translate-y-1"
+                    itemScope
+                    itemType="https://schema.org/WorkBasedProgram"
+                    aria-label={`${exp.role} at ${exp.company}`}
+                  >
 
                     {/* Top row: badge + date */}
                     <div className="flex flex-wrap items-center gap-3 mb-4">

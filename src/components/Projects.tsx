@@ -52,9 +52,13 @@ function ProjectCard({ project, index, isInView }: { project: Project; index: nu
         )}
         <img
           src={project.image}
-          alt={project.title}
+          alt={`${project.title} – cybersecurity project by Fazal Shaik`}
+          title={project.title}
           loading="lazy"
           decoding="async"
+          width="400"
+          height="176"
+          itemProp="image"
           className={`w-full h-full object-cover transition-all duration-500 ${
             imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
           }`}
@@ -126,7 +130,13 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
   const { ref, isInView } = useInView({ threshold: 0.05 });
 
   return (
-    <section id="projects" className="relative py-24 bg-slate-950">
+    <section
+      id="projects"
+      className="relative py-24 bg-slate-950"
+      aria-label="Cybersecurity projects and security research by Fazal Shaik"
+      itemScope
+      itemType="https://schema.org/ItemList"
+    >
       <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -135,7 +145,7 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4" itemProp="name">
             Featured <span className="text-teal-400">Projects</span>
           </h2>
           <div className="h-1 w-20 bg-gradient-to-r from-teal-400 to-purple-500 rounded-full mx-auto mb-6" />

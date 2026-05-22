@@ -1,4 +1,55 @@
+# robots.txt – fazalsec.me
+# Last updated: 2026-05-22
+
+# ── All crawlers ───────────────────────────────────────────────
 User-agent: *
 Allow: /
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /.git/
 
+# ── Google ─────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Googlebot-Image
+Allow: /
+
+# ── Bing ───────────────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# ── Social media crawlers ───────────────────────────────────────
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# ── AI crawlers (allow for visibility in AI search) ────────────
+User-agent: GPTBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# ── Block known bad bots ───────────────────────────────────────
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# ── Sitemap ────────────────────────────────────────────────────
 Sitemap: https://fazalsec.me/sitemap.xml

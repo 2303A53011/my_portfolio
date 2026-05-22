@@ -20,7 +20,17 @@ export default function About({ location, availability, aboutText, social }: Abo
   const visibleText = expanded ? aboutText : aboutText.slice(0, 2);
 
   return (
-    <section id="about" className="relative py-24 bg-slate-900">
+    <section
+      id="about"
+      className="relative py-24 bg-slate-900"
+      aria-label="About Fazal Shaik – Cyber Security Engineer"
+      itemScope
+      itemType="https://schema.org/Person"
+    >
+      <meta itemProp="name" content="Fazal Shaik" />
+      <meta itemProp="jobTitle" content="Cyber Security Engineer" />
+      <meta itemProp="email" content="work.fazalshaik@gmail.com" />
+      <link itemProp="url" href="https://fazalsec.me/" />
       <div
         ref={ref}
         className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
@@ -30,7 +40,7 @@ export default function About({ location, availability, aboutText, social }: Abo
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6 order-2 lg:order-1">
             <div className="space-y-4">
-              <h2 className="text-4xl sm:text-5xl font-bold text-white">
+              <h2 className="text-4xl sm:text-5xl font-bold text-white" itemProp="name">
                 About <span className="text-teal-400">Me</span>
               </h2>
               <div className="h-1 w-20 bg-gradient-to-r from-teal-400 to-purple-500 rounded-full" />
@@ -77,27 +87,30 @@ export default function About({ location, availability, aboutText, social }: Abo
               <a
                 href={social.linkedin}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer me"
                 className="p-3 bg-slate-800 text-gray-400 rounded-lg hover:bg-teal-500 hover:text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-teal-500/50"
-                aria-label="LinkedIn"
+                aria-label="Fazal Shaik on LinkedIn"
+                itemProp="sameAs"
               >
                 <Linkedin size={22} />
               </a>
               <a
                 href={social.github}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer me"
                 className="p-3 bg-slate-800 text-gray-400 rounded-lg hover:bg-teal-500 hover:text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-teal-500/50"
-                aria-label="GitHub"
+                aria-label="Fazal Shaik on GitHub"
+                itemProp="sameAs"
               >
                 <Github size={22} />
               </a>
               <a
                 href={social.tryhackme}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer me"
                 className="p-3 bg-slate-800 text-gray-400 rounded-lg hover:bg-teal-500 hover:text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-teal-500/50"
-                aria-label="TryHackMe"
+                aria-label="Fazal Shaik on TryHackMe"
+                itemProp="sameAs"
               >
                 <Shield size={22} />
               </a>
@@ -110,7 +123,13 @@ export default function About({ location, availability, aboutText, social }: Abo
               <div className="relative w-80 h-80 sm:w-96 sm:h-96 bg-slate-800 rounded-2xl overflow-hidden border-2 border-teal-500/20">
                 <img
                   src="/profile-pic-2.jpeg"
-                  alt="Fazal Shaik - Profile"
+                  alt="Fazal Shaik – Cyber Security Engineer and SOC Analyst based in India"
+                  title="Fazal Shaik – Cyber Security Engineer"
+                  width="384"
+                  height="384"
+                  loading="eager"
+                  decoding="async"
+                  itemProp="image"
                   className="w-full h-full object-cover scale-150 hover:scale-[1.25] transition-all duration-500"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;

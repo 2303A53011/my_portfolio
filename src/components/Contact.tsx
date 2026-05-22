@@ -59,7 +59,13 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-24 bg-slate-950">
+    <section
+      id="contact"
+      className="relative py-24 bg-slate-950"
+      aria-label="Contact Fazal Shaik – Cybersecurity Engineer"
+      itemScope
+      itemType="https://schema.org/ContactPage"
+    >
       <div
         ref={ref}
         className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-700 ${

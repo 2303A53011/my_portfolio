@@ -23,7 +23,13 @@ export default function Hero({ fullName, tagline }: HeroProps) {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950">
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950"
+      aria-label="Hero – Fazal Shaik Cyber Security Engineer"
+      itemScope
+      itemType="https://schema.org/WPHeader"
+    >
       <AnimatedBackground />
 
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/50 to-slate-950" />
@@ -42,7 +48,10 @@ export default function Hero({ fullName, tagline }: HeroProps) {
                 </div>
               </div> */}
 
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
+              <h1
+                className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight"
+                itemProp="headline"
+              >
                 {fullName.split(' ').map((word, index) => (
                   <span
                     key={index}
@@ -59,7 +68,11 @@ export default function Hero({ fullName, tagline }: HeroProps) {
               </h1>
 
 
-              <p className="text-xl sm:text-2xl text-teal-400 font-light tracking-wide min-h-[2em]">
+              <p
+                className="text-xl sm:text-2xl text-teal-400 font-light tracking-wide min-h-[2em]"
+                itemProp="alternativeHeadline"
+                aria-label={tagline}
+              >
                 <TypeWriter text={tagline} speed={35} delay={1000} />
               </p>
             </div>
@@ -85,6 +98,8 @@ export default function Hero({ fullName, tagline }: HeroProps) {
               <a
                 href="https://drive.google.com/file/d/1Qbgcs-f-xU2Eg7-2_tuhmQ3j6g2gpkjd/view?usp=sharing"
                 download target='_blank'
+                rel="noopener noreferrer"
+                aria-label="Download Fazal Shaik's cybersecurity resume (PDF)"
                 className="group px-8 py-4 border-2 border-teal-400 text-teal-400 rounded-lg font-medium transition-all duration-300 hover:bg-teal-400 hover:text-slate-950 hover:shadow-lg hover:shadow-teal-400/50 hover:-translate-y-0.5 flex items-center justify-center gap-2"
               >
                 Download Resume

@@ -1,59 +1,302 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" itemscope itemtype="https://schema.org/WebPage">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- ============================================================
+         FAVICON & THEME
+    ============================================================ -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/og-image.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fazal Shaik | Cyber Security Engineer</title>
-    
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Fazal Shaik | Cyber Security Engineer" />
-    <meta name="description" content="Fazal Shaik — Cyber Security Engineer portfolio showcasing SOC operations, SIEM detections, incident response, and security research." />
-    <meta name="keywords" content="Fazal Shaik, Cyber Security, SOC Analyst, SIEM, Incident Response, TryHackMe, Threat Hunting, Penetration Testing, Information Security" />
-    <meta name="author" content="Fazal Shaik" />
-    <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#020617" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- ============================================================
+         PRIMARY TITLE & META
+    ============================================================ -->
+    <title>Fazal Shaik | Cyber Security Engineer & SOC Analyst – fazalsec.me</title>
+    <meta name="title" content="Fazal Shaik | Cyber Security Engineer & SOC Analyst" />
+    <meta
+      name="description"
+      content="Fazal Shaik is a Cyber Security Engineer specializing in SOC operations, SIEM detections (Splunk, ELK), incident response, threat hunting, and penetration testing. Available for security roles, internships, and collaborations."
+    />
+    <meta
+      name="keywords"
+      content="Fazal Shaik, Cyber Security Engineer, SOC Analyst, SIEM, Splunk, ELK Stack, Incident Response, Threat Hunting, Penetration Testing, Information Security, Blue Team, Red Team, TryHackMe, Suricata, Azure Security, Cloud Security, fazalsec, fazalsec.me, security portfolio"
+    />
+    <meta name="author" content="Fazal Shaik" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
+
+    <!-- ============================================================
+         CANONICAL & LANGUAGE
+    ============================================================ -->
     <link rel="canonical" href="https://fazalsec.me/" />
+    <link rel="alternate" hreflang="en" href="https://fazalsec.me/" />
+    <link rel="alternate" hreflang="x-default" href="https://fazalsec.me/" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <!-- ============================================================
+         GEO & LANGUAGE TARGETING
+    ============================================================ -->
+    <meta name="geo.region" content="IN" />
+    <meta name="geo.country" content="India" />
+    <meta name="language" content="English" />
+    <meta http-equiv="content-language" content="en" />
+
+    <!-- ============================================================
+         OPEN GRAPH (Facebook / LinkedIn / Discord)
+    ============================================================ -->
+    <meta property="og:type" content="profile" />
     <meta property="og:url" content="https://fazalsec.me/" />
-    <meta property="og:title" content="Fazal Shaik | Cyber Security Engineer" />
-    <meta property="og:description" content="Fazal Shaik — Cyber Security Engineer portfolio showcasing SOC operations, SIEM detections, incident response, and security research." />
+    <meta property="og:site_name" content="Fazal Shaik – Cybersecurity Portfolio" />
+    <meta property="og:title" content="Fazal Shaik | Cyber Security Engineer & SOC Analyst" />
+    <meta
+      property="og:description"
+      content="SOC operations, SIEM detections, incident response, threat hunting, and security research – explore Fazal Shaik's cybersecurity portfolio."
+    />
     <meta property="og:image" content="https://fazalsec.me/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Fazal Shaik – Cyber Security Engineer Portfolio" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="profile:first_name" content="Fazal" />
+    <meta property="profile:last_name" content="Shaik" />
+    <meta property="profile:username" content="fazal-shaikk" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://fazalsec.me/" />
-    <meta property="twitter:title" content="Fazal Shaik | Cyber Security Engineer" />
-    <meta property="twitter:description" content="Fazal Shaik — Cyber Security Engineer portfolio showcasing SOC operations, SIEM detections, incident response, and security research." />
-    <meta property="twitter:image" content="https://fazalsec.me/og-image.png" />
+    <!-- ============================================================
+         TWITTER / X CARD
+    ============================================================ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@fazalsec" />
+    <meta name="twitter:creator" content="@fazalsec" />
+    <meta name="twitter:url" content="https://fazalsec.me/" />
+    <meta name="twitter:title" content="Fazal Shaik | Cyber Security Engineer & SOC Analyst" />
+    <meta
+      name="twitter:description"
+      content="SOC operations, SIEM detections, incident response, threat hunting, and security research – explore Fazal Shaik's cybersecurity portfolio."
+    />
+    <meta name="twitter:image" content="https://fazalsec.me/og-image.png" />
+    <meta name="twitter:image:alt" content="Fazal Shaik – Cyber Security Engineer Portfolio" />
 
-    <!-- Structured Data JSON-LD -->
+    <!-- ============================================================
+         STRUCTURED DATA – JSON-LD (@graph)
+    ============================================================ -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Fazal Shaik",
-        "url": "https://fazalsec.me/",
-        "jobTitle": "Cyber Security Engineer",
-        "sameAs": [
-          "https://github.com/shaikfazal-del",
-          "https://linkedin.com/in/fazal-shaikk"
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://fazalsec.me/#person",
+            "name": "Fazal Shaik",
+            "alternateName": "fazalsec",
+            "url": "https://fazalsec.me/",
+            "image": {
+              "@type": "ImageObject",
+              "url": "https://fazalsec.me/profile-pic-2.jpeg",
+              "width": 400,
+              "height": 400,
+              "caption": "Fazal Shaik – Cyber Security Engineer"
+            },
+            "jobTitle": "Cyber Security Engineer",
+            "description": "Cyber Security Engineer specializing in SOC operations, SIEM detections, incident response, threat hunting, penetration testing, and cloud security on Azure.",
+            "knowsAbout": [
+              "SOC Operations",
+              "SIEM",
+              "Splunk",
+              "ELK Stack",
+              "Incident Response",
+              "Threat Hunting",
+              "Penetration Testing",
+              "Azure Security",
+              "Suricata",
+              "Blue Team Security",
+              "Red Team Security",
+              "CTF Competitions",
+              "Honeypot Deployment",
+              "Network Security"
+            ],
+            "hasCredential": [
+              {
+                "@type": "EducationalOccupationalCredential",
+                "name": "Microsoft Cybersecurity Analyst Professional Certificate",
+                "credentialCategory": "Professional Certificate",
+                "recognizedBy": {
+                  "@type": "Organization",
+                  "name": "Microsoft"
+                }
+              },
+              {
+                "@type": "EducationalOccupationalCredential",
+                "name": "Cisco Ethical Hacker",
+                "credentialCategory": "Professional Certificate",
+                "recognizedBy": {
+                  "@type": "Organization",
+                  "name": "Cisco"
+                }
+              }
+            ],
+            "sameAs": [
+              "https://github.com/shaikfazal-del",
+              "https://linkedin.com/in/fazal-shaikk",
+              "https://tryhackme.com/p/fazalsec"
+            ],
+            "email": "work.fazalshaik@gmail.com",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "IN"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://fazalsec.me/#website",
+            "url": "https://fazalsec.me/",
+            "name": "Fazal Shaik – Cybersecurity Portfolio",
+            "description": "Professional cybersecurity portfolio of Fazal Shaik – SOC Analyst & Cyber Security Engineer",
+            "publisher": { "@id": "https://fazalsec.me/#person" },
+            "inLanguage": "en-US",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://fazalsec.me/?s={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@type": "ProfilePage",
+            "@id": "https://fazalsec.me/#profilepage",
+            "url": "https://fazalsec.me/",
+            "name": "Fazal Shaik | Cyber Security Engineer & SOC Analyst",
+            "description": "SOC operations, SIEM detections, incident response, threat hunting and security research portfolio of Fazal Shaik.",
+            "isPartOf": { "@id": "https://fazalsec.me/#website" },
+            "about": { "@id": "https://fazalsec.me/#person" },
+            "author": { "@id": "https://fazalsec.me/#person" },
+            "datePublished": "2025-01-01",
+            "dateModified": "2026-05-22",
+            "inLanguage": "en-US",
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "url": "https://fazalsec.me/og-image.png",
+              "width": 1200,
+              "height": 630
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://fazalsec.me/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "About",
+                "item": "https://fazalsec.me/#about"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Skills",
+                "item": "https://fazalsec.me/#skills"
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "Experience",
+                "item": "https://fazalsec.me/#experience"
+              },
+              {
+                "@type": "ListItem",
+                "position": 5,
+                "name": "Projects",
+                "item": "https://fazalsec.me/#projects"
+              },
+              {
+                "@type": "ListItem",
+                "position": 6,
+                "name": "Certifications",
+                "item": "https://fazalsec.me/#certifications"
+              },
+              {
+                "@type": "ListItem",
+                "position": 7,
+                "name": "Contact",
+                "item": "https://fazalsec.me/#contact"
+              }
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What cybersecurity skills does Fazal Shaik specialize in?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Fazal Shaik specializes in SOC operations, SIEM platforms (Splunk, ELK Stack), incident response, threat hunting, penetration testing, cloud security on Azure, and deploying honeypots using T-Pot."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is Fazal Shaik available for cybersecurity internships or jobs?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, Fazal Shaik is open to cybersecurity roles, SOC analyst internships, security engineering positions, and collaborative research projects. Contact at work.fazalshaik@gmail.com."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What certifications does Fazal Shaik hold?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Fazal Shaik holds the Microsoft Cybersecurity Analyst Professional Certificate, Cisco Ethical Hacker certification, and other industry-recognized credentials in cybersecurity."
+                }
+              }
+            ]
+          }
         ]
       }
     </script>
 
-    <!-- Fonts -->
+    <!-- ============================================================
+         PERFORMANCE: PRECONNECT & PRELOAD
+    ============================================================ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Preload the profile image (above-the-fold LCP candidate) -->
+    <link rel="preload" as="image" href="/profile-pic-2.jpeg" />
+    <!-- Preload OG image for social sharing speed -->
+    <link rel="preload" as="image" href="/og-image.png" />
+
+    <!-- ============================================================
+         GOOGLE FONTS
+    ============================================================ -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ============================================================
+         ADDITIONAL TECHNICAL SEO META
+    ============================================================ -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="referrer" content="origin-when-cross-origin" />
+    <meta name="rating" content="general" />
+    <meta name="revisit-after" content="7 days" />
+    <!-- Security headers hint for crawlers -->
+    <meta name="generator" content="Vite + React + TypeScript" />
   </head>
-  <body>
-    <div id="root"></div>
+
+  <body itemscope itemtype="https://schema.org/WebPage">
+    <div id="root" role="main"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
-
-

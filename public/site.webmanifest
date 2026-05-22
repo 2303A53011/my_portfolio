@@ -1,0 +1,27 @@
+{
+  "name": "Fazal Shaik – Cybersecurity Portfolio",
+  "short_name": "fazalsec",
+  "description": "Cyber Security Engineer & SOC Analyst – portfolio showcasing SOC operations, SIEM, incident response, and threat hunting.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "technology", "security"],
+  "screenshots": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "label": "Fazal Shaik Cybersecurity Portfolio homepage"
+    }
+  ]
+}
