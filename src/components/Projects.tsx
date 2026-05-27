@@ -173,7 +173,7 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
           }`}
         >
           <a
-            href={githubUrl}
+            href="https://github.com/shaikfazal-del?tab=repositories"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-8 py-4 bg-teal-500 text-white rounded-lg font-medium hover:bg-teal-600 transition-all hover:shadow-lg hover:shadow-teal-500/30 hover:-translate-y-0.5"
