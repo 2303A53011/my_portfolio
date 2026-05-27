@@ -194,6 +194,27 @@ export const experiences: Experience[] = [
     ],
     stack: ['Python', 'Streamlit', 'LLM Security', 'Prompt Engineering', 'Secure Architecture'],
   },
+  {
+    id: 'tryhackme-cybersecurity-practitioner',
+    role: 'Cybersecurity Practitioner — Top 1% Global Ranking',
+    company: 'TryHackMe',
+    companyUrl: 'https://tryhackme.com/p/FazalShaik',
+    type: 'volunteer',
+    location: 'Remote',
+    startDate: '2023-01',
+    endDate: 'Present',
+    description:
+      'Consistently ranked in the Top 1% globally on TryHackMe — one of the world\'s leading hands-on cybersecurity training platforms — with a strong focus on Blue Team operations, SOC analysis, digital forensics, and malware analysis across 300+ completed rooms.',
+    highlights: [
+      'Ranked #7,809 globally — Top 1% out of 3M+ users worldwide',
+      'Completed 300+ rooms spanning Blue Team, SOC, Forensics, and CTF domains',
+      'Maintained a 287-day consecutive learning streak, demonstrating daily discipline and commitment',
+      'Earned 43 skill badges validating real-world attack/defense competencies',
+      'Achieved Diamond level (Level 88) with the [0xE][GUARDIAN] title — reflecting elite-tier progression',
+      'Completed SOC Level 1, Pre-Security, and Cybersecurity 101 learning paths',
+    ],
+    stack: ['Blue Team Operations', 'SOC Analysis', 'Digital Forensics', 'Malware Analysis', 'Log Analysis', 'Incident Response', 'CTF Challenges'],
+  },
 ];
 
 
