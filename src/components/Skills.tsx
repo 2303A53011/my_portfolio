@@ -20,6 +20,13 @@ const categoryMeta: Record<string, { icon: string; color: string; glow: string; 
     border: 'border-teal-500/50',
     bg: 'bg-teal-500/8',
   },
+  'Cloud & Infrastructure': {
+    icon: '☁️',
+    color: 'text-sky-400',
+    glow: 'shadow-sky-500/40',
+    border: 'border-sky-500/50',
+    bg: 'bg-sky-500/8',
+  },
   'Scripting & Languages': {
     icon: '💻',
     color: 'text-violet-400',

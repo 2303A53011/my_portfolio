@@ -24,24 +24,43 @@ export const skillGroups: SkillGroup[] = [
   {
     category: 'Offensive Security',
     skills: [
-      { name: 'Penetration Testing', tooltip: 'Web app & network pentesting', proficiency: 72, level: 'Intermediate' },
-      { name: 'Vulnerability Research', tooltip: '0-day discovery and disclosure', proficiency: 65, level: 'Intermediate' },
+      { name: 'Metasploit', tooltip: 'Exploitation framework for penetration testing', proficiency: 72, level: 'Intermediate' },
+      { name: 'Kali Linux', tooltip: 'Primary offensive security OS', proficiency: 78, level: 'Advanced' },
+      { name: 'Burp Suite', tooltip: 'Web application security testing', proficiency: 68, level: 'Intermediate' },
+      { name: 'Nmap', tooltip: 'Network discovery and port scanning', proficiency: 80, level: 'Advanced' },
+      { name: 'Nikto', tooltip: 'Web server vulnerability scanner', proficiency: 65, level: 'Intermediate' },
+      { name: 'John the Ripper', tooltip: 'Password cracking and hash analysis', proficiency: 65, level: 'Intermediate' },
     ],
   },
   {
     category: 'Defensive Operations',
     skills: [
-      { name: 'SIEM Architecture', tooltip: 'Splunk, ELK stack, QRadar', proficiency: 85, level: 'Advanced' },
-      { name: 'Incident Response', tooltip: 'NIST and SANS IR frameworks', proficiency: 80, level: 'Advanced' },
-      { name: 'Digital Forensics', tooltip: 'Network and endpoint forensics', proficiency: 78, level: 'Advanced' },
-      { name: 'EDR/XDR', tooltip: 'CrowdStrike, SentinelOne, Carbon Black', proficiency: 70, level: 'Intermediate' },
+      { name: 'Splunk', tooltip: 'SIEM — log ingestion, correlation & threat hunting', proficiency: 85, level: 'Advanced' },
+      { name: 'Wazuh', tooltip: 'Open-source SIEM & XDR for endpoint monitoring', proficiency: 85, level: 'Advanced' },
+      { name: 'Snort', tooltip: 'Network intrusion detection system (IDS)', proficiency: 75, level: 'Proficient' },
+      { name: 'Wireshark', tooltip: 'Packet capture and network forensics', proficiency: 80, level: 'Advanced' },
+      { name: 'Volatility', tooltip: 'Memory forensics and malware analysis', proficiency: 75, level: 'Proficient' },
+      { name: 'Kibana', tooltip: 'ELK stack visualization for threat analytics', proficiency: 78, level: 'Advanced' },
+      { name: 'Elasticsearch', tooltip: 'Log indexing and search for SOC pipelines', proficiency: 72, level: 'Intermediate' },
+      { name: 'Logstash', tooltip: 'Log ingestion and pipeline automation', proficiency: 70, level: 'Intermediate' },
+    ],
+  },
+  {
+    category: 'Cloud & Infrastructure',
+    skills: [
+      { name: 'AWS EC2', tooltip: 'Cloud VM provisioning and security hardening', proficiency: 75, level: 'Proficient' },
+      { name: 'Microsoft Azure', tooltip: 'Azure VM deployment and NSG configuration', proficiency: 72, level: 'Intermediate' },
+      { name: 'Docker', tooltip: 'Containerized security tooling and honeypots', proficiency: 73, level: 'Intermediate' },
+      { name: 'Tailscale', tooltip: 'VPN mesh for secure log forwarding', proficiency: 68, level: 'Intermediate' },
+      { name: 'Ubuntu Server', tooltip: 'Linux server administration', proficiency: 80, level: 'Advanced' },
+      { name: 'OpenPGP / SSL', tooltip: 'Encryption and PKI for secure infrastructure', proficiency: 70, level: 'Intermediate' },
     ],
   },
   {
     category: 'Scripting & Languages',
     skills: [
       { name: 'Python', tooltip: 'Security automation and tool development', proficiency: 82, level: 'Advanced' },
-      { name: 'PowerShell', tooltip: 'Windows security operations', proficiency: 68, level: 'Intermediate' },
+      { name: 'PowerShell', tooltip: 'Windows security operations and scripting', proficiency: 68, level: 'Intermediate' },
       { name: 'Bash', tooltip: 'Linux system administration and scripting', proficiency: 75, level: 'Proficient' },
       { name: 'JavaScript', tooltip: 'Full-stack security dashboards', proficiency: 65, level: 'Intermediate' },
       { name: 'C', tooltip: 'System-level programming & memory analysis', proficiency: 55, level: 'Familiar' },
@@ -50,8 +69,11 @@ export const skillGroups: SkillGroup[] = [
   {
     category: 'Research & Writing',
     skills: [
-      { name: 'Threat Intelligence', tooltip: 'MITRE ATT&CK mapping and analysis', proficiency: 80, level: 'Advanced' },
-      { name: 'Technical Writing', tooltip: 'Blog posts, IR reports and documentation', proficiency: 85, level: 'Advanced' },
+      { name: 'MITRE ATT&CK', tooltip: 'Adversary tactics & technique mapping', proficiency: 80, level: 'Advanced' },
+      { name: 'NIST SP 800-61', tooltip: 'Incident response framework', proficiency: 82, level: 'Advanced' },
+      { name: 'VirusTotal API', tooltip: 'Threat intelligence and IOC analysis', proficiency: 78, level: 'Advanced' },
+      { name: 'Technical Writing', tooltip: 'IR reports, blog posts, and documentation', proficiency: 85, level: 'Advanced' },
+      { name: 'OSINT', tooltip: 'Open-source intelligence gathering', proficiency: 75, level: 'Proficient' },
     ],
   },
 ];
