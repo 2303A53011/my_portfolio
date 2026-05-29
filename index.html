@@ -271,18 +271,31 @@
     ============================================================ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Preload the profile image (above-the-fold LCP candidate) -->
-    <link rel="preload" as="image" href="/profile-pic-2.jpeg" />
-    <!-- Preload OG image for social sharing speed -->
-    <link rel="preload" as="image" href="/og-image.png" />
+    <!-- Preload the profile image (above-the-fold LCP candidate) — WebP for modern browsers, JPEG fallback -->
+    <link rel="preload" as="image" href="/profile-pic-2.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/profile-pic-2.jpeg" fetchpriority="high" />
 
     <!-- ============================================================
          GOOGLE FONTS
     ============================================================ -->
+    <!-- Non-render-blocking Google Fonts: load as print, swap to all on load -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- ============================================================
          ADDITIONAL TECHNICAL SEO META

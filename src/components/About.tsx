@@ -121,21 +121,25 @@ export default function About({ location, availability, aboutText, social }: Abo
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 to-purple-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-300" />
               <div className="relative w-80 h-80 sm:w-96 sm:h-96 bg-slate-800 rounded-2xl overflow-hidden border-2 border-teal-500/20">
-                <img
-                  src="/profile-pic-2.jpeg"
-                  alt="Fazal Shaik – Cyber Security Engineer and SOC Analyst based in India"
-                  title="Fazal Shaik – Cyber Security Engineer"
-                  width="384"
-                  height="384"
-                  loading="eager"
-                  decoding="async"
-                  itemProp="image"
-                  className="w-full h-full object-cover scale-150 hover:scale-[1.25] transition-all duration-500"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                  }}
-                />
+                <picture>
+                  <source srcSet="/profile-pic-2.webp" type="image/webp" />
+                  <img
+                    src="/profile-pic-2.jpeg"
+                    alt="Fazal Shaik – Cyber Security Engineer and SOC Analyst based in India"
+                    title="Fazal Shaik – Cyber Security Engineer"
+                    width="384"
+                    height="384"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                    itemProp="image"
+                    className="w-full h-full object-cover scale-150 hover:scale-[1.25] transition-all duration-500"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                </picture>
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent opacity-60" />
               </div>
             </div>
