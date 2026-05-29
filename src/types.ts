@@ -24,6 +24,8 @@ export interface Certification {
 export interface Skill {
   name: string;
   tooltip: string;
+  proficiency?: number;
+  level?: string;
 }
 
 export interface SkillGroup {

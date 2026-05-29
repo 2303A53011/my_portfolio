@@ -24,40 +24,34 @@ export const skillGroups: SkillGroup[] = [
   {
     category: 'Offensive Security',
     skills: [
-      { name: 'Penetration Testing', tooltip: 'Web' },
-      { name: 'Vulnerability Research', tooltip: '0-day discovery and disclosure' },
+      { name: 'Penetration Testing', tooltip: 'Web app & network pentesting', proficiency: 72, level: 'Intermediate' },
+      { name: 'Vulnerability Research', tooltip: '0-day discovery and disclosure', proficiency: 65, level: 'Intermediate' },
     ],
   },
   {
     category: 'Defensive Operations',
     skills: [
-      { name: 'SIEM Architecture', tooltip: 'Splunk, ELK stack, QRadar ' },
-      { name: 'Incident Response', tooltip: 'NIST and SANS IR frameworks' },
-      { name: 'Digital Forensics', tooltip: 'Network and endpoint forensics' },
-      { name: 'EDR/XDR', tooltip: 'CrowdStrike, SentinelOne, Carbon Black' },
+      { name: 'SIEM Architecture', tooltip: 'Splunk, ELK stack, QRadar', proficiency: 85, level: 'Advanced' },
+      { name: 'Incident Response', tooltip: 'NIST and SANS IR frameworks', proficiency: 80, level: 'Advanced' },
+      { name: 'Digital Forensics', tooltip: 'Network and endpoint forensics', proficiency: 78, level: 'Advanced' },
+      { name: 'EDR/XDR', tooltip: 'CrowdStrike, SentinelOne, Carbon Black', proficiency: 70, level: 'Intermediate' },
     ],
   },
-  // {
-  //   category: 'DevSecOps',
-  //   skills: [
-  //     { name: 'Security as Code', tooltip: 'Automated security controls' },
-  //   ],
-  // },
   {
     category: 'Scripting & Languages',
     skills: [
-      { name: 'Python', tooltip: 'Security automation and tool development' },
-      { name: 'PowerShell', tooltip: 'Windows security operations' },
-      { name: 'Bash', tooltip: 'Linux system administration and scripting' },
-      { name: 'JavaScript', tooltip: 'Full-stack security dashboards' },
-      { name: 'C', tooltip: 'System design ' },
+      { name: 'Python', tooltip: 'Security automation and tool development', proficiency: 82, level: 'Advanced' },
+      { name: 'PowerShell', tooltip: 'Windows security operations', proficiency: 68, level: 'Intermediate' },
+      { name: 'Bash', tooltip: 'Linux system administration and scripting', proficiency: 75, level: 'Proficient' },
+      { name: 'JavaScript', tooltip: 'Full-stack security dashboards', proficiency: 65, level: 'Intermediate' },
+      { name: 'C', tooltip: 'System-level programming & memory analysis', proficiency: 55, level: 'Familiar' },
     ],
   },
   {
     category: 'Research & Writing',
     skills: [
-      { name: 'Threat Intelligence', tooltip: 'MITRE ATT&CK mapping and analysis' },
-      { name: 'Technical Writing', tooltip: 'Blog posts and documentation' },
+      { name: 'Threat Intelligence', tooltip: 'MITRE ATT&CK mapping and analysis', proficiency: 80, level: 'Advanced' },
+      { name: 'Technical Writing', tooltip: 'Blog posts, IR reports and documentation', proficiency: 85, level: 'Advanced' },
     ],
   },
 ];
