@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import { SkillGroup } from '../types';
 import { useInView } from '../hooks/useInView';
 
@@ -6,200 +5,148 @@ interface SkillsProps {
   skillGroups: SkillGroup[];
 }
 
-/* ── per-category theming ─────────────────────────────────────── */
+/* ── per-category config ──────────────────────────────────────── */
 const categoryMeta: Record<
   string,
-  { icon: string; accent: string; barColor: string; glowColor: string; tagBg: string }
+  {
+    icon: string;
+    label: string;
+    borderColor: string;
+    accentText: string;
+    dotColor: string;
+    headingGlow: string;
+    pillBg: string;
+  }
 > = {
   'Offensive Security': {
     icon: '⚔️',
-    accent: 'text-rose-400',
-    barColor: 'from-rose-500 to-orange-400',
-    glowColor: 'rgba(244,63,94,0.15)',
-    tagBg: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+    label: 'Offensive Security',
+    borderColor: 'border-l-rose-500',
+    accentText: 'text-rose-400',
+    dotColor: 'bg-rose-500',
+    headingGlow: 'from-rose-500/20 to-transparent',
+    pillBg: 'bg-rose-500/10 border-rose-500/30 text-rose-300',
   },
   'Defensive Operations': {
     icon: '🛡️',
-    accent: 'text-teal-400',
-    barColor: 'from-teal-500 to-emerald-400',
-    glowColor: 'rgba(20,184,166,0.15)',
-    tagBg: 'bg-teal-500/10 text-teal-400 border-teal-500/20',
+    label: 'Defensive Operations',
+    borderColor: 'border-l-teal-500',
+    accentText: 'text-teal-400',
+    dotColor: 'bg-teal-500',
+    headingGlow: 'from-teal-500/20 to-transparent',
+    pillBg: 'bg-teal-500/10 border-teal-500/30 text-teal-300',
   },
   'Scripting & Languages': {
     icon: '💻',
-    accent: 'text-violet-400',
-    barColor: 'from-violet-500 to-purple-400',
-    glowColor: 'rgba(139,92,246,0.15)',
-    tagBg: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+    label: 'Scripting & Languages',
+    borderColor: 'border-l-violet-500',
+    accentText: 'text-violet-400',
+    dotColor: 'bg-violet-500',
+    headingGlow: 'from-violet-500/20 to-transparent',
+    pillBg: 'bg-violet-500/10 border-violet-500/30 text-violet-300',
   },
   'Research & Writing': {
     icon: '📝',
-    accent: 'text-amber-400',
-    barColor: 'from-amber-500 to-yellow-400',
-    glowColor: 'rgba(245,158,11,0.15)',
-    tagBg: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    label: 'Research & Writing',
+    borderColor: 'border-l-amber-500',
+    accentText: 'text-amber-400',
+    dotColor: 'bg-amber-500',
+    headingGlow: 'from-amber-500/20 to-transparent',
+    pillBg: 'bg-amber-500/10 border-amber-500/30 text-amber-300',
   },
 };
 
-const defaultMeta = {
-  icon: '🔧',
-  accent: 'text-teal-400',
-  barColor: 'from-teal-500 to-emerald-400',
-  glowColor: 'rgba(20,184,166,0.15)',
-  tagBg: 'bg-teal-500/10 text-teal-400 border-teal-500/20',
-};
+const defaultMeta = categoryMeta['Defensive Operations'];
 
-const levelColor: Record<string, string> = {
-  Advanced:     'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
-  Proficient:   'text-teal-400    bg-teal-400/10    border-teal-400/20',
-  Intermediate: 'text-amber-400   bg-amber-400/10   border-amber-400/20',
-  Familiar:     'text-slate-400   bg-slate-400/10   border-slate-400/20',
-};
-
-/* ── animated bar ─────────────────────────────────────────────── */
-function ProficiencyBar({
-  value,
-  colorClass,
-  animate,
+/* ── individual skill card ────────────────────────────────────── */
+function SkillCard({
+  name,
+  tooltip,
+  meta,
+  delay,
+  isInView,
 }: {
-  value: number;
-  colorClass: string;
-  animate: boolean;
+  name: string;
+  tooltip: string;
+  meta: (typeof categoryMeta)[string];
+  delay: number;
+  isInView: boolean;
 }) {
   return (
-    <div className="relative h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+    <div
+      className={`group relative flex flex-col gap-1.5 border-l-[3px] ${meta.borderColor}
+        bg-slate-900/60 backdrop-blur-sm rounded-r-xl rounded-l-sm px-4 py-3.5
+        border border-slate-800 border-l-0
+        hover:bg-slate-800/70 hover:border-slate-700
+        transition-all duration-400
+        ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {/* Skill name */}
+      <span className="text-white font-semibold text-sm leading-tight">{name}</span>
+
+      {/* Description — always visible */}
+      <span className="text-slate-400 text-xs leading-snug">{tooltip}</span>
+
+      {/* Subtle glow on hover */}
       <div
-        className={`h-full rounded-full bg-gradient-to-r ${colorClass} transition-all duration-1000 ease-out`}
-        style={{ width: animate ? `${value}%` : '0%' }}
+        className={`absolute inset-0 rounded-r-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-gradient-to-r ${meta.headingGlow}`}
       />
     </div>
   );
 }
 
-/* ── single skill row ─────────────────────────────────────────── */
-function SkillRow({
-  name,
-  tooltip,
-  proficiency = 70,
-  level = 'Intermediate',
-  barColor,
-  animate,
-}: {
-  name: string;
-  tooltip: string;
-  proficiency?: number;
-  level?: string;
-  barColor: string;
-  animate: boolean;
-}) {
-  const lvlClass = levelColor[level] ?? levelColor['Familiar'];
-
-  return (
-    <div className="group space-y-2">
-      {/* Name row */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="text-white font-medium text-sm truncate">{name}</span>
-          <span
-            className={`shrink-0 px-1.5 py-0.5 text-[10px] font-semibold rounded border ${lvlClass}`}
-          >
-            {level}
-          </span>
-        </div>
-        <span className="shrink-0 text-xs font-mono text-slate-500">{proficiency}%</span>
-      </div>
-
-      {/* Bar */}
-      <ProficiencyBar value={proficiency} colorClass={barColor} animate={animate} />
-
-      {/* Subtitle (always visible) */}
-      <p className="text-[11px] text-slate-500 leading-snug">{tooltip}</p>
-    </div>
-  );
-}
-
-/* ── category card ────────────────────────────────────────────── */
-function CategoryCard({
+/* ── category row ─────────────────────────────────────────────── */
+function CategoryRow({
   group,
-  index,
+  groupIndex,
   isInView,
 }: {
   group: SkillGroup;
-  index: number;
+  groupIndex: number;
   isInView: boolean;
 }) {
-  const [animate, setAnimate] = useState(false);
   const meta = categoryMeta[group.category] ?? defaultMeta;
 
-  useEffect(() => {
-    if (isInView) {
-      const t = setTimeout(() => setAnimate(true), index * 120 + 300);
-      return () => clearTimeout(t);
-    }
-  }, [isInView, index]);
-
   return (
-    <article
-      className={`relative flex flex-col gap-5 rounded-2xl border border-slate-800 bg-slate-900/70 backdrop-blur-sm p-6
-        hover:border-slate-700 transition-all duration-500
-        ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-      style={{
-        transitionDelay: `${index * 120 + 200}ms`,
-        boxShadow: `inset 0 0 60px ${meta.glowColor}`,
-      }}
+    <div
+      className={`transition-all duration-700 ${
+        isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}
+      style={{ transitionDelay: `${groupIndex * 150 + 100}ms` }}
     >
-      {/* Top – category header */}
-      <div className="flex items-center gap-3">
-        <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-          style={{ background: meta.glowColor }}
-        >
-          {meta.icon}
-        </div>
-        <div>
-          <h3 className={`font-bold text-base ${meta.accent}`}>{group.category}</h3>
-          <p className="text-xs text-slate-500">{group.skills.length} skill{group.skills.length !== 1 ? 's' : ''}</p>
-        </div>
-
-        {/* decorative corner dots */}
-        <div className="ml-auto flex gap-1 opacity-30">
-          <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-          <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
-          <span className="w-1.5 h-1.5 rounded-full bg-slate-700" />
-        </div>
+      {/* Category header */}
+      <div className="flex items-center gap-3 mb-4">
+        <span className="text-xl">{meta.icon}</span>
+        <h3 className={`font-bold text-base tracking-wide ${meta.accentText}`}>
+          {group.category}
+        </h3>
+        <div className="flex-1 h-px bg-slate-800" />
+        <span className="text-xs text-slate-600 font-mono">
+          {group.skills.length} skill{group.skills.length !== 1 ? 's' : ''}
+        </span>
       </div>
 
-      {/* Divider */}
-      <div className={`h-px w-full bg-gradient-to-r ${meta.barColor} opacity-20`} />
-
-      {/* Skills list */}
-      <div className="flex flex-col gap-5">
-        {group.skills.map((skill) => (
-          <SkillRow
+      {/* Skill cards grid */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        {group.skills.map((skill, skillIndex) => (
+          <SkillCard
             key={skill.name}
             name={skill.name}
             tooltip={skill.tooltip}
-            proficiency={skill.proficiency}
-            level={skill.level}
-            barColor={meta.barColor}
-            animate={animate}
+            meta={meta}
+            delay={groupIndex * 150 + skillIndex * 80 + 200}
+            isInView={isInView}
           />
         ))}
       </div>
-    </article>
+    </div>
   );
 }
 
 /* ── main section ─────────────────────────────────────────────── */
 export default function Skills({ skillGroups }: SkillsProps) {
   const { ref, isInView } = useInView({ threshold: 0.08 });
-
-  /* Aggregate totals for the summary bar */
-  const totalSkills = skillGroups.reduce((s, g) => s + g.skills.length, 0);
-  const avgProficiency = Math.round(
-    skillGroups.flatMap((g) => g.skills).reduce((s, sk) => s + (sk.proficiency ?? 70), 0) /
-      totalSkills
-  );
 
   return (
     <section
@@ -209,21 +156,21 @@ export default function Skills({ skillGroups }: SkillsProps) {
       itemScope
       itemType="https://schema.org/ItemList"
     >
-      {/* Background grid texture */}
+      {/* Subtle background grid */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        className="pointer-events-none absolute inset-0 opacity-[0.025]"
         style={{
           backgroundImage:
             'linear-gradient(to right,#fff 1px,transparent 1px),linear-gradient(to bottom,#fff 1px,transparent 1px)',
-          backgroundSize: '40px 40px',
+          backgroundSize: '48px 48px',
         }}
       />
 
-      <div ref={ref} className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div ref={ref} className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* ── Header ── */}
         <div
-          className={`text-center mb-14 transition-all duration-700 ${
+          className={`text-center mb-16 transition-all duration-700 ${
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
@@ -236,59 +183,21 @@ export default function Skills({ skillGroups }: SkillsProps) {
           </p>
         </div>
 
-        {/* ── Quick-stat pills ── */}
-        <div
-          className={`flex flex-wrap justify-center gap-3 mb-12 transition-all duration-700 delay-200 ${
-            isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          {[
-            { label: 'Skill Areas', value: skillGroups.length, color: 'text-teal-400' },
-            { label: 'Total Skills', value: totalSkills, color: 'text-violet-400' },
-            { label: 'Avg. Proficiency', value: `${avgProficiency}%`, color: 'text-amber-400' },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 border border-slate-800"
-            >
-              <span className={`text-lg font-bold font-mono ${stat.color}`}>{stat.value}</span>
-              <span className="text-xs text-slate-500">{stat.label}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* ── Bento grid ── */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5">
+        {/* ── Category rows stacked ── */}
+        <div className="flex flex-col gap-10">
           {skillGroups.map((group, index) => (
-            <CategoryCard
+            <CategoryRow
               key={group.category}
               group={group}
-              index={index}
+              groupIndex={index}
               isInView={isInView}
             />
           ))}
         </div>
 
-        {/* ── Level legend ── */}
-        <div
-          className={`mt-10 flex flex-wrap justify-center gap-3 transition-all duration-700 delay-500 ${
-            isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <span className="text-xs text-slate-600 self-center mr-1">Proficiency levels:</span>
-          {Object.entries(levelColor).map(([label, cls]) => (
-            <span
-              key={label}
-              className={`px-2.5 py-1 text-xs font-medium rounded-full border ${cls}`}
-            >
-              {label}
-            </span>
-          ))}
-        </div>
-
         {/* ── Footer note ── */}
         <div
-          className={`mt-10 text-center transition-all duration-700 delay-600 ${
+          className={`mt-14 text-center transition-all duration-700 delay-700 ${
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
