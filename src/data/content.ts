@@ -80,6 +80,17 @@ export const skillGroups: SkillGroup[] = [
 
 export const projects: Project[] = [
   {
+    id: 'sentinel-ai-soc',
+    title: 'Sentinel AI SOC – Cloud-Native SIEM with AI Incident Response',
+    tagline: 'Azure Sentinel powered by GPT: detect threats with KQL, UEBA & Tor watchlists — then let AI triage them automatically.',
+    tags: ['SIEM', 'AI/ML', 'Azure', 'Threat Detection', 'Incident Response', 'SOC'],
+    stack: ['Microsoft Azure', 'Azure Sentinel', 'KQL', 'OpenAI GPT', 'UEBA', 'Logic Apps', 'Python'],
+    preview: 'dashboard',
+    image: '/project-7.webp',
+    githubLink: 'https://github.com/shaikfazal-del/sentinel-ai-soc',
+    description: 'Built a cloud-native SIEM on Microsoft Azure using Azure Sentinel with AI-powered automated incident response. Detects threats using KQL analytics rules, UEBA behavioural baselines, and Tor exit-node watchlists. When an incident fires, an OpenAI GPT integration automatically analyses the alert context and posts a triage comment — dramatically reducing mean time to respond. Deployed entirely on the Azure free tier, demonstrating cost-efficient enterprise-grade security engineering.',
+  },
+  {
     id: 'siem-query-generator-pro',
     title: 'Production-ready SIEM detection engineering assistant for building scalable, high-fidelity threat detections across multiple SIEM platforms.',
     tagline: 'Unified SOC environment integrating SIEM, IDS, and automation for real-world defense simulation',
@@ -168,6 +179,16 @@ export const certifications: Certification[] = [
     credentialId: '',
     verifyLink: 'https://drive.google.com/file/d/1nkrnjini5LUYdIwGguNuG3IpJZYos5Np/view?usp=sharing',
     certificateUrl: '/certificates/azure-ai-fundamentals.png',
+  },
+  {
+    id: 'tryhackme-soc-level-1',
+    title: 'SOC Level 1 Learning Path',
+    issuer: 'TryHackMe',
+    issuerLogo: 'https://assets.tryhackme.com/img/THMlogo.png',
+    dateIssued: '2026-06-07',
+    credentialId: '',
+    verifyLink: 'https://drive.google.com/file/d/1wr3ln8dY7b_fyS40lI_ZrNZYWmTtetiu/view?usp=sharing',
+    certificateUrl: '/certificates/tryhackme-soc-level-1.png',
   },
   {
     id: 'tryhackme-presecurity',
