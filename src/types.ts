@@ -46,3 +46,24 @@ export interface Experience {
   highlights: string[];
   stack: string[];
 }
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
+  readTime: string;
+  category: string;
+  contentFile: string; // The file name, e.g. 'log4shell-deep-dive.md'
+}
+
+export interface MediumPost {
+  title: string;
+  link: string;
+  pubDate: string;
+  categories: string[];
+  thumbnail: string;
+  description: string; // this is the preview/excerpt text or html
+  author: string;
+}

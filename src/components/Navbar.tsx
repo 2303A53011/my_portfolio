@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 interface NavbarProps {
@@ -8,6 +9,8 @@ interface NavbarProps {
 export default function Navbar({ activeSection }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const navLinks = [
     { id: 'home', label: 'Home' },
@@ -16,6 +19,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
     { id: 'experience', label: 'Experience' },
     { id: 'projects', label: 'Projects' },
     { id: 'certifications', label: 'Certifications' },
+    { id: 'writeups', label: 'Writeups' },
     { id: 'contact', label: 'Contact' },
   ];
 
@@ -29,6 +33,12 @@ export default function Navbar({ activeSection }: NavbarProps) {
   }, []);
 
   const scrollToSection = (id: string) => {
+    if (location.pathname !== '/') {
+      navigate(`/#${id}`);
+      setIsMobileMenuOpen(false);
+      return;
+    }
+
     const element = document.getElementById(id);
     if (element) {
       const offset = 80;
