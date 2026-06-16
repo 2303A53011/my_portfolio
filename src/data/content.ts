@@ -161,6 +161,16 @@ export const projects: Project[] = [
 
 export const certifications: Certification[] = [
   {
+    id: 'ibm-qradar-siem',
+    title: 'IBM QRadar SIEM Foundations',
+    issuer: 'IBM',
+    issuerLogo: '/ibm.svg',
+    dateIssued: '2026-06-16',
+    credentialId: '',
+    verifyLink: 'https://drive.google.com/file/d/1-JFuMMiX1GHROlB7rxVm7oWlTwSbRbHN/view?usp=sharing',
+    certificateUrl: '/certificates/ibm-qradar-siem.png',
+  },
+  {
     id: 'junior-cybersecurity-analyst',
     title: 'Junior Cybersecurity Analyst Career Path',
     issuer: 'Cisco Networking Academy',
