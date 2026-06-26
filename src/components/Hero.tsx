@@ -96,7 +96,7 @@ export default function Hero({ fullName, tagline }: HeroProps) {
               </button>
 
               <a
-                href="https://drive.google.com/file/d/1Qbgcs-f-xU2Eg7-2_tuhmQ3j6g2gpkjd/view?usp=sharing"
+                href="https://drive.google.com/file/d/1AUuIWPIz5lVDjLAqtNIqgyueTxU8vMHy/view?usp=sharing"
                 download target='_blank'
                 rel="noopener noreferrer"
                 aria-label="Download Fazal Shaik's cybersecurity resume (PDF)"
