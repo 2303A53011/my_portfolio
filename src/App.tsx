@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
+import Education from './components/Education';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
@@ -26,7 +27,7 @@ function AppContent() {
     if (location.pathname !== '/') return;
     
     const handleScroll = () => {
-      const sections = ['home', 'about', 'skills', 'experience', 'projects', 'certifications', 'writeups', 'contact'];
+      const sections = ['home', 'about', 'education', 'skills', 'experience', 'projects', 'certifications', 'writeups', 'contact'];
       const scrollPosition = window.scrollY + 150;
 
       for (const section of sections) {
@@ -114,6 +115,7 @@ function AppContent() {
                 aboutText={personalInfo.aboutText}
                 social={personalInfo.social}
               />
+              <Education />
               <Skills skillGroups={skillGroups} />
               <Experience experiences={experiences} />
               <Projects projects={projects} githubUrl={personalInfo.githubUrl} />

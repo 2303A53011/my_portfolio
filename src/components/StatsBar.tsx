@@ -8,7 +8,7 @@ interface Stat {
 }
 
 const stats: Stat[] = [
-  { value: 5, suffix: '+', label: 'Security Projects' },
+  { value: 8, suffix: '+', label: 'Security Projects' },
   { value: 4, suffix: '', label: 'Certifications' },
   { value: 250, suffix: '+', label: 'TryHackMe Rooms' },
   { value: 10, suffix: '+', label: 'CTFs' },
@@ -16,28 +16,37 @@ const stats: Stat[] = [
 
 function useCountUp(end: number, duration: number = 2000, start: boolean = false) {
   const [count, setCount] = useState(0);
-  const frameRef = useRef<number>();
+  const frameRef = useRef<number | undefined>(undefined);
+  const startedRef = useRef(false);
 
   useEffect(() => {
-    if (!start) return;
+    if (!start || startedRef.current) return;
+    startedRef.current = true;
 
-    const startTime = performance.now();
-    const step = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
+    // Small delay so the fade-in animation plays first
+    const timeout = setTimeout(() => {
+      const startTime = performance.now();
+      const step = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
 
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * end));
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setCount(Math.floor(eased * end));
 
-      if (progress < 1) {
-        frameRef.current = requestAnimationFrame(step);
-      }
-    };
+        if (progress < 1) {
+          frameRef.current = requestAnimationFrame(step);
+        } else {
+          setCount(end); // ensure final value is exact
+        }
+      };
 
-    frameRef.current = requestAnimationFrame(step);
+      frameRef.current = requestAnimationFrame(step);
+    }, 200);
+
     return () => {
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+      clearTimeout(timeout);
+      if (frameRef.current !== undefined) cancelAnimationFrame(frameRef.current);
     };
   }, [end, duration, start]);
 
@@ -65,7 +74,8 @@ function StatItem({ stat, inView, delay }: { stat: Stat; inView: boolean; delay:
 }
 
 export default function StatsBar() {
-  const { ref, isInView } = useInView({ threshold: 0.5 });
+  // Lower threshold so counters fire even if section is partially in view
+  const { ref, isInView } = useInView({ threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
 
   return (
     <section className="relative py-16 bg-slate-900/50 border-y border-slate-800/50">

@@ -64,7 +64,7 @@
     <meta property="og:locale" content="en_US" />
     <meta property="profile:first_name" content="Fazal" />
     <meta property="profile:last_name" content="Shaik" />
-    <meta property="profile:username" content="fazal-shaikk" />
+    <meta property="profile:username" content="fazal-shaik" />
 
     <!-- ============================================================
          TWITTER / X CARD
@@ -103,26 +103,59 @@
             },
             "jobTitle": "Cyber Security Engineer",
             "description": "Cyber Security Engineer specializing in SOC operations, SIEM detections, incident response, threat hunting, penetration testing, and cloud security on Azure.",
+            "alumniOf": {
+              "@type": "CollegeOrUniversity",
+              "name": "SR University",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Warangal",
+                "addressRegion": "Telangana",
+                "addressCountry": "IN"
+              }
+            },
             "knowsAbout": [
               "SOC Operations",
               "SIEM",
               "Splunk",
               "ELK Stack",
+              "KQL",
               "Incident Response",
               "Threat Hunting",
               "Penetration Testing",
               "Azure Security",
               "Suricata",
+              "EDR",
+              "XDR",
+              "SOAR",
               "Blue Team Security",
               "Red Team Security",
               "CTF Competitions",
               "Honeypot Deployment",
-              "Network Security"
+              "Network Security",
+              "Detection Engineering"
             ],
             "hasCredential": [
               {
                 "@type": "EducationalOccupationalCredential",
-                "name": "Microsoft Cybersecurity Analyst Professional Certificate",
+                "name": "IBM QRadar SIEM Foundations",
+                "credentialCategory": "Professional Certificate",
+                "recognizedBy": {
+                  "@type": "Organization",
+                  "name": "IBM"
+                }
+              },
+              {
+                "@type": "EducationalOccupationalCredential",
+                "name": "Junior Cybersecurity Analyst Career Path",
+                "credentialCategory": "Professional Certificate",
+                "recognizedBy": {
+                  "@type": "Organization",
+                  "name": "Cisco Networking Academy"
+                }
+              },
+              {
+                "@type": "EducationalOccupationalCredential",
+                "name": "Microsoft Certified: Azure AI Fundamentals",
                 "credentialCategory": "Professional Certificate",
                 "recognizedBy": {
                   "@type": "Organization",
@@ -131,11 +164,11 @@
               },
               {
                 "@type": "EducationalOccupationalCredential",
-                "name": "Cisco Ethical Hacker",
+                "name": "SOC Level 1 Learning Path",
                 "credentialCategory": "Professional Certificate",
                 "recognizedBy": {
                   "@type": "Organization",
-                  "name": "Cisco"
+                  "name": "TryHackMe"
                 }
               }
             ],
@@ -147,6 +180,8 @@
             "email": "work.fazalshaik@gmail.com",
             "address": {
               "@type": "PostalAddress",
+              "addressLocality": "Warangal",
+              "addressRegion": "Telangana",
               "addressCountry": "IN"
             }
           },
@@ -157,15 +192,7 @@
             "name": "Fazal Shaik – Cybersecurity Portfolio",
             "description": "Professional cybersecurity portfolio of Fazal Shaik – SOC Analyst & Cyber Security Engineer",
             "publisher": { "@id": "https://fazalsec.me/#person" },
-            "inLanguage": "en-US",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "https://fazalsec.me/?s={search_term_string}"
-              },
-              "query-input": "required name=search_term_string"
-            }
+            "inLanguage": "en-US"
           },
           {
             "@type": "ProfilePage",
@@ -309,7 +336,12 @@
   </head>
 
   <body itemscope itemtype="https://schema.org/WebPage">
-    <div id="root" role="main"></div>
+    <!-- Skip to main content — keyboard/screen-reader accessibility -->
+    <a
+      href="#main"
+      class="sr-skip"
+    >Skip to main content</a>
+    <div id="root" id="main" role="main"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

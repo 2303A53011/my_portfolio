@@ -15,6 +15,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
   const navLinks = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
+    { id: 'education', label: 'Education' },
     { id: 'skills', label: 'Skills' },
     { id: 'experience', label: 'Experience' },
     { id: 'projects', label: 'Projects' },
@@ -65,11 +66,17 @@ export default function Navbar({ activeSection }: NavbarProps) {
         <div className="flex items-center justify-between h-20">
           <button
             onClick={() => scrollToSection('home')}
-            className="text-xl font-bold text-white hover:text-teal-400 transition-colors"
+            aria-label="Fazal Shaik – home"
+            className="flex items-center gap-2.5 group"
           >
-            <span className="text-teal-400">&lt;</span>
-            Fazal
-            <span className="text-teal-400">/&gt;</span>
+            {/* FS monogram badge */}
+            <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-teal-400 to-teal-600 text-slate-950 text-sm font-black shadow-lg shadow-teal-500/30 group-hover:shadow-teal-500/60 transition-shadow duration-300">
+              FS
+            </span>
+            {/* Wordmark */}
+            <span className="text-white font-semibold text-base tracking-wide group-hover:text-teal-400 transition-colors duration-300">
+              Fazal <span className="text-teal-400">Shaik</span>
+            </span>
           </button>
 
           <div className="hidden md:flex items-center space-x-8">
