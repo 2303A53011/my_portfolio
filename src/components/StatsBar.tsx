@@ -8,8 +8,8 @@ interface Stat {
 }
 
 const stats: Stat[] = [
-  { value: 8, suffix: '+', label: 'Security Projects' },
-  { value: 4, suffix: '', label: 'Certifications' },
+  { value: 9, suffix: '+', label: 'Security Projects' },
+  { value: 5, suffix: '', label: 'Certifications' },
   { value: 250, suffix: '+', label: 'TryHackMe Rooms' },
   { value: 10, suffix: '+', label: 'CTFs' },
 ];

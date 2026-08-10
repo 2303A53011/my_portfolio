@@ -14,7 +14,7 @@ export const personalInfo = {
   },
   aboutText: [
     'I\'m Fazal Shaik — a final-year Computer Science Engineering undergraduate (Cyber Security specialization) at SR University, Warangal. I build security infrastructure from the ground up: SIEM pipelines on Azure, honeypots that capture real-world attacks, incident response simulations that follow NIST SP 800-61, and AI-powered detection systems. Every project I ship is production-architected, documented, and built to demonstrate what I can do on day one in a SOC or security engineering role.',
-    'I hold 4 industry certifications (IBM QRadar SIEM, Cisco Ethical Hacker, Microsoft Azure AI Fundamentals, TryHackMe SOC Level 1), rank in the top 1% globally on TryHackMe (out of 3M+ users), and have completed 300+ rooms across Blue Team, SOC analysis, digital forensics, and malware analysis domains. During my Infosys Springboard internship, I engineered a secure AI chatbot that reduced malicious prompt responses by ~80% in test scenarios.',
+    'I hold 5 industry certifications (ISC2 Certified in Cybersecurity, IBM QRadar SIEM, Cisco Ethical Hacker, Microsoft Azure AI Fundamentals, TryHackMe SOC Level 1), rank in the top 1% globally on TryHackMe (out of 3M+ users), and have completed 300+ rooms across Blue Team, SOC analysis, digital forensics, and malware analysis domains. During my Infosys Springboard internship, I engineered a secure AI chatbot that reduced malicious prompt responses by ~80% in test scenarios.',
     'My current focus is detection engineering — writing high-fidelity KQL and SPL rules, deploying Suricata IDS with custom signatures, and building SOAR playbooks that reduce mean time to respond. I believe real security competence is demonstrated through artifacts, not just certifications.',
     'I\'m actively seeking cybersecurity roles, SOC analyst internships, or security engineering positions where I can contribute immediately. Let\'s connect.',
   ],
@@ -85,6 +85,17 @@ export const skillGroups: SkillGroup[] = [
 ];
 
 export const projects: Project[] = [
+  {
+    id: 'ai-soc-automation-pipeline-edr',
+    title: 'AI SOC Automation Pipeline – Wazuh + n8n + LLM Tier-1 Triage',
+    tagline: 'Catch real attacks, kill alert fatigue — let an AI analyst do the first pass before a human opens the queue.',
+    tags: ['SIEM', 'SOAR', 'AI/ML', 'Detection Engineering', 'Automation', 'SOC'],
+    stack: ['Wazuh', 'n8n', 'Groq Llama 3.3 70B', 'AbuseIPDB', 'VirusTotal API', 'Slack', 'Jira', 'Atomic Red Team', 'Python'],
+    preview: 'dashboard',
+    image: '/project-8.png',
+    githubLink: 'https://github.com/shaikfazal-del/AI-SOC-Automation-Pipeline-EDR',
+    description: 'Built a self-hosted AI-powered SOC automation pipeline that ingests raw Wazuh alerts and outputs fully triaged, AI-investigated incidents with zero manual steps. The pipeline performs real-time alert ingestion via webhook, SHA-256 fingerprinting for de-duplication, live threat intel lookups against AbuseIPDB and VirusTotal, and composite threat scoring combining asset criticality, MITRE ATT&CK mapping, and command-pattern analysis into a 0–100 risk score. A Groq-hosted Llama 3.3 70B model acts as AI Tier-1 analyst — returning structured verdicts (True Positive / False Positive / Needs Review) with confidence scores, MITRE mapping, and triage justification. Confirmed incidents auto-post to Slack; high-severity ones open Jira tickets. Verified end-to-end using Atomic Red Team attack simulations (T1059.001 PowerShell abuse). Eliminates repetitive first-pass triage, reducing analyst time on noise by an estimated 70%+.',
+  },
   {
     id: 'sentinel-ai-soc',
     title: 'Sentinel AI SOC – Cloud-Native SIEM with AI Incident Response',
@@ -176,6 +187,16 @@ export const projects: Project[] = [
 ];
 
 export const certifications: Certification[] = [
+  {
+    id: 'isc2-cc',
+    title: 'Certified in Cybersecurity (CC)',
+    issuer: 'ISC2',
+    issuerLogo: '/isc2.svg',
+    dateIssued: '2026-08-01',
+    credentialId: '',
+    verifyLink: 'https://www.credly.com/users/shaik-fazal',
+    certificateUrl: '/certificates/isc2-cc.png',
+  },
   {
     id: 'ibm-qradar-siem',
     title: 'IBM QRadar SIEM Foundations',
