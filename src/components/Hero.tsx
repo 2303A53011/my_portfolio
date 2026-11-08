@@ -1,173 +1,127 @@
-import { ArrowDown, Download, Zap } from 'lucide-react';
-import AnimatedBackground from './AnimatedBackground';
-import TypeWriter from './TypeWriter';
+import { Component, ReactNode, Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { ArrowDown, ArrowUpRight, Hand } from 'lucide-react';
+import { gsap, SplitText, useGSAP, prefersReduced } from '../lib/gsap';
+import { scrollToId } from '../lib/lenis';
+import Magnetic from './Magnetic';
 
-interface HeroProps {
-  fullName: string;
-  tagline: string;
+const Playground = lazy(() => import('./Playground'));
+const RESUME = 'https://drive.google.com/file/d/1AUuIWPIz5lVDjLAqtNIqgyueTxU8vMHy/view?usp=sharing';
+class Boundary extends Component<{ children: ReactNode }, { err: boolean }> {
+  state = { err: false };
+  static getDerivedStateFromError() {
+    return { err: true };
+  }
+  render() {
+    return this.state.err ? null : this.props.children;
+  }
 }
 
-export default function Hero({ fullName, tagline }: HeroProps) {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+function Phrases({ text }: { text: string }) {
+  const list = text.split(/(?<=\.)\s+/).filter(Boolean);
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI((v) => (v + 1) % list.length), 3000);
+    return () => clearInterval(id);
+  }, [list.length]);
+  const cur = list[i];
+  return (
+    <div className="relative mt-4 h-[2.8rem] sm:h-[3.4rem]" aria-label={text}>
+      <div key={i} className="absolute inset-0 flex items-center gap-3" aria-hidden="true">
+        <span className="phrase-bar h-8 w-1 shrink-0 rounded-full bg-signal shadow-[0_0_18px_#4DFFD2]" />
+        <span className="font-serif-i whitespace-nowrap text-[clamp(1.4rem,3vw,2.5rem)] leading-none text-bone">
+          {cur.split('').map((c, k) => (
+            <span key={k} className="char-in inline-block whitespace-pre" style={{ animationDelay: `${k * 28}ms` }}>
+              {c}
+            </span>
+          ))}
+        </span>
+      </div>
+      <div className="phrase-scan pointer-events-none absolute -bottom-1 left-0 h-px w-full max-w-md" />
+    </div>
+  );
+}
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
+export default function Hero({ fullName, tagline, ready }: { fullName: string; tagline: string; ready: boolean }) {
+  const root = useRef<HTMLElement>(null);
+  const [first, last] = fullName.split(' ');
+  const [world, setWorld] = useState(false);
+
+  useEffect(() => {
+    setWorld(!!document.createElement('canvas').getContext('webgl2'));
+  }, []);
+
+  useGSAP(
+    () => {
+      if (prefersReduced()) return;
+      if (!ready) {
+        gsap.set('.h-fade', { opacity: 0 });
+        gsap.set('.h-name', { opacity: 0 });
+        return;
+      }
+      gsap.set('.h-name', { opacity: 1 });
+      const split = SplitText.create('.h-name', { type: 'chars', mask: 'chars' });
+      gsap.timeline({ defaults: { ease: 'expo.out' } })
+        .from(split.chars, { yPercent: 115, stagger: 0.04, duration: 1.3 })
+        .fromTo('.h-fade', { opacity: 0, y: 26 }, { opacity: 1, y: 0, stagger: 0.1, duration: 1 }, 0.3);
+    },
+    { scope: root, dependencies: [ready] }
+  );
 
   return (
-    <section
-      id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950"
-      aria-label="Hero – Fazal Shaik Cyber Security Engineer"
-      itemScope
-      itemType="https://schema.org/WPHeader"
-    >
-      <AnimatedBackground />
+    <section ref={root} id="home" className="relative z-10 h-screen min-h-[640px] overflow-hidden" aria-label="Fazal Shaik, Cyber Security Engineer">
+      {/* 3D world */}
+      <div className="absolute inset-0">
+        {world && (
+          <Boundary>
+            <Suspense fallback={null}>
+              <Playground />
+            </Suspense>
+          </Boundary>
+        )}
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-ink/90 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-ink/80 to-transparent" />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/50 to-slate-950" />
+      {/* overlay */}
+      <div className="pointer-events-none absolute inset-0 flex flex-col justify-between px-5 pb-10 pt-28 md:px-10">
+        <div className="h-fade inline-flex w-fit items-center gap-2.5 rounded-full border border-white/10 bg-ink/50 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-bone/80 backdrop-blur">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-signal" style={{ animation: 'ping-dot 1.6s infinite' }} />
+            <span className="relative h-2 w-2 rounded-full bg-signal" />
+          </span>
+          Intern @ Mitigata · Bengaluru
+        </div>
 
-      <div className="absolute top-0 left-0 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8 animate-fade-in">
-            <div className="space-y-6">
-              {/* <div className="inline-block">
-                <div className="flex items-center gap-2 px-4 py-2 bg-teal-500/10 border border-teal-500/30 rounded-full backdrop-blur-sm animate-bounce" style={{ animationDelay: '0.5s' }}>
-                  <Zap size={16} className="text-teal-400" />
-                  <span className="text-teal-400 text-sm font-medium">Cyber Defense Engineer</span>
-                </div>
-              </div> */}
-
-              <h1
-                className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight"
-                itemProp="headline"
-              >
-                {fullName.split(' ').map((word, index) => (
-                  <span
-                    key={index}
-                    className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-white via-teal-200 to-white mr-4"
-                    style={{
-                      animation: 'fadeInUp 0.8s ease-out forwards',
-                      animationDelay: `${index * 0.15}s`,
-                      opacity: 0,
-                    }}
-                  >
-                    {word}
-                  </span>
-                ))}
-              </h1>
-
-
-              <p
-                className="text-xl sm:text-2xl text-teal-400 font-light tracking-wide min-h-[2em]"
-                itemProp="alternativeHeadline"
-                aria-label={tagline}
-              >
-                <TypeWriter text={tagline} speed={35} delay={1000} />
-              </p>
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <h1 className="select-none font-display font-semibold leading-[0.86] tracking-[-0.045em]" aria-label={fullName}>
+              <span className="h-name block text-[clamp(3.5rem,9vw,8.5rem)]">{first}</span>
+              <span className="h-name font-serif-i block text-[clamp(3.5rem,9vw,8.5rem)] text-signal !tracking-[-0.03em]">{last}</span>
+            </h1>
+            <div className="h-fade">
+              <div className="mt-4 font-mono text-[11px] uppercase tracking-[0.3em] text-bone/60">Cyber security engineer</div>
+              <Phrases text={tagline} />
             </div>
-
-            <div className="h-1 w-24 bg-gradient-to-r from-teal-400 to-purple-500 rounded-full animate-fadeIn" style={{ animationDelay: '0.8s' }} />
-
-            <p className="text-gray-400 text-lg max-w-xl leading-relaxed animate-fadeIn" style={{ animationDelay: '1s' }}>
-              I specialize in SOC operations, log analysis, and automated incident response. By combining tools like Splunk, ELK, and Suricata, I transform raw telemetry into actionable intelligence that detects and neutralizes threats before they escalate. My focus — building adaptive defenses that scale with evolving attack surfaces.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-fadeIn" style={{ animationDelay: '1.2s' }}>
-              <button
-                onClick={() => scrollToSection('projects')}
-                className="group relative px-8 py-4 bg-teal-500 text-white rounded-lg font-medium overflow-hidden transition-all duration-300 hover:bg-teal-600 hover:shadow-lg hover:shadow-teal-500/50 hover:-translate-y-0.5"
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  View Projects
-                  <ArrowDown size={18} className="group-hover:translate-y-1 transition-transform" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </button>
-
-              <a
-                href="https://drive.google.com/file/d/1AUuIWPIz5lVDjLAqtNIqgyueTxU8vMHy/view?usp=sharing"
-                download target='_blank'
-                rel="noopener noreferrer"
-                aria-label="Download Fazal Shaik's cybersecurity resume (PDF)"
-                className="group px-8 py-4 border-2 border-teal-400 text-teal-400 rounded-lg font-medium transition-all duration-300 hover:bg-teal-400 hover:text-slate-950 hover:shadow-lg hover:shadow-teal-400/50 hover:-translate-y-0.5 flex items-center justify-center gap-2"
-              >
-                Download Resume
-                <Download size={18} className="group-hover:translate-y-1 transition-transform" />
-              </a>
+            <div className="h-fade pointer-events-auto mt-6 flex flex-wrap gap-3">
+              <Magnetic>
+                <button onClick={() => scrollToId('projects')} className="group flex items-center gap-2 rounded-full bg-bone px-6 py-3.5 font-semibold text-ink transition-all hover:bg-signal">
+                  View projects <ArrowDown size={16} className="transition-transform group-hover:translate-y-1" />
+                </button>
+              </Magnetic>
+              <Magnetic>
+                <a href={RESUME} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-full border border-white/20 bg-ink/50 px-6 py-3.5 font-semibold backdrop-blur transition-colors hover:border-signal hover:text-signal">
+                  Resume <ArrowUpRight size={16} />
+                </a>
+              </Magnetic>
             </div>
           </div>
 
-          <div className="relative hidden lg:block">
-            <div className="relative w-full h-[600px] flex items-center justify-center">
-
-              {/* 1. Large Ambient Glow (Behind everything) */}
-              <div className="absolute w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[120px] animate-pulse" />
-
-              <div className="relative w-96 h-96">
-
-                {/* 2. Outer Rotating "Scanner" Ring */}
-                <div className="absolute inset-0 rounded-full border border-white/5 animate-[spin_15s_linear_infinite] before:content-[''] before:absolute before:inset-[-2px] before:rounded-full before:border-t-2 before:border-teal-500/40" />
-
-                {/* 3. The "Glass Sphere" Core */}
-                <div className="absolute inset-10 rounded-full bg-white/5 backdrop-blur-md border border-white/10 shadow-[inset_0_0_40px_rgba(255,255,255,0.05),0_20_50px_rgba(0,0,0,0.3)] flex items-center justify-center overflow-hidden group hover:border-teal-500/30 transition-all duration-700">
-
-                  {/* Moving "Scan Line" inside the glass */}
-                  <div className="absolute w-full h-1 bg-gradient-to-r from-transparent via-teal-500/20 to-transparent -translate-y-40 animate-[scan_4s_ease-in-out_infinite]" />
-
-                  {/* Center Content */}
-                  <div className="relative z-10 flex flex-col items-center">
-                    <div className="relative">
-                      {/* Shield Icon with a "Glow" behind it */}
-                      <div className="absolute inset-0 bg-teal-500/20 blur-xl rounded-full animate-pulse" />
-                      <svg className="w-16 h-16 text-white drop-shadow-2xl" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                      </svg>
-                    </div>
-                    <p className="mt-4 font-mono text-[10px] tracking-[0.4em] text-teal-400 uppercase">System Active</p>
-                  </div>
-                </div>
-
-                {/* 4. Floating "Data Glass" Cards (Orbiting the orb) */}
-                <div className="absolute -top-4 -right-4 w-24 h-12 bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg p-2 animate-bounce [animation-duration:5s] flex flex-col justify-center">
-                  <div className="w-full h-1 bg-teal-500/30 rounded-full overflow-hidden">
-                    <div className="w-2/3 h-full bg-teal-400 animate-[progress_2s_ease-in-out_infinite]" />
-                  </div>
-                  <span className="text-[8px] text-white/50 font-mono mt-1">THREAT_SCAN</span>
-                </div>
-
-                <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-purple-500/5 backdrop-blur-lg border border-purple-500/20 rounded-full animate-pulse flex items-center justify-center">
-                  <span className="text-purple-400 font-mono text-[10px] animate-pulse">99%</span>
-                </div>
-
-                {/* 5. Extra Detail: Circular Particles */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-dashed border-white/5 rounded-full animate-[spin_60s_linear_infinite]" />
-              </div>
-            </div>
+          <div className="h-fade flex items-center gap-2 rounded-full border border-white/10 bg-ink/55 px-4 py-2.5 font-mono text-[11px] uppercase tracking-widest text-bone/70 backdrop-blur-xl">
+            <Hand size={15} className="text-signal" /> grab &amp; throw the objects
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <button
-          onClick={() => scrollToSection('about')}
-          className="text-teal-400 hover:text-teal-300 transition-colors hover:shadow-lg hover:shadow-teal-400/50 p-2 rounded-full"
-          aria-label="Scroll to about section"
-        >
-          <ArrowDown size={32} />
-        </button>
-      </div>
     </section>
   );
 }
-

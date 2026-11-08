@@ -1,212 +1,79 @@
-import { useState } from 'react';
-import { Mail, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import { useInView } from '../hooks/useInView';
+import { FormEvent, useRef, useState } from 'react';
+import { gsap, useGSAP, prefersReduced } from '../lib/gsap';
+import Magnetic from './Magnetic';
+import Glass from './Glass';
 
-type Status = 'idle' | 'sending' | 'success' | 'error';
+const EMAIL = 'work.fazalshaik@gmail.com';
+type Status = 'idle' | 'sending' | 'sent' | 'fallback';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
+  const root = useRef<HTMLElement>(null);
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState<Status>('idle');
-  const { ref, isInView } = useInView({ threshold: 0.15 });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  useGSAP(
+    () => {
+      if (prefersReduced()) return;
+      gsap.from('.ct-big', { yPercent: 40, opacity: 0, filter: 'blur(14px)', duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: '.ct-big', start: 'top 88%' } });
+      gsap.from('.ct-card', { y: 80, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: '.ct-card', start: 'top 88%' } });
+    },
+    { scope: root }
+  );
 
-  const handleSend = async (e: React.FormEvent) => {
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     setStatus('sending');
-
     try {
-      // Primary: Formspree — replace YOUR_FORM_ID with your actual Formspree form ID
       const res = await fetch('https://formspree.io/f/xlgzolak', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-        }),
+        body: JSON.stringify(form),
       });
-
-      if (res.ok) {
-        setStatus('success');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setTimeout(() => setStatus('idle'), 6000);
-      } else {
-        throw new Error('Formspree error');
-      }
+      if (!res.ok) throw new Error('failed');
+      setStatus('sent');
+      setForm({ name: '', email: '', subject: '', message: '' });
     } catch {
-      // Fallback: open mailto in a new tab so user stays on the page
-      const mailtoLink = `mailto:work.fazalshaik@gmail.com?subject=${encodeURIComponent(
-        formData.subject || 'Security Inquiry'
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`;
-      window.open(mailtoLink, '_blank');
-      setStatus('error');
-      setTimeout(() => setStatus('idle'), 6000);
+      window.open(`mailto:${EMAIL}?subject=${encodeURIComponent(form.subject || 'Portfolio contact')}&body=${encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`)}`, '_blank');
+      setStatus('fallback');
     }
   };
 
+  const field = 'w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-base outline-none transition-all placeholder:text-bone/35 focus:border-signal/70 focus:bg-white/[0.08]';
+
   return (
-    <section
-      id="contact"
-      className="relative py-24 bg-slate-950"
-      aria-label="Contact Fazal Shaik – Cybersecurity Engineer"
-      itemScope
-      itemType="https://schema.org/ContactPage"
-    >
-      <div
-        ref={ref}
-        className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
-          isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-      >
-
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-            Get In <span className="text-teal-400">Touch</span>
-          </h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-teal-400 to-purple-500 rounded-full mx-auto mb-6" />
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Reach out for security roles, internships, collaborations, or technical discussions
-          </p>
+    <section ref={root} id="contact" className="relative z-10 mx-auto max-w-7xl px-5 py-28 md:px-10 md:py-36">
+      <div className="mb-14 text-center">
+        <div className="mb-5 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.25em] text-bone/70 backdrop-blur">
+          <span className="text-signal">07</span> Contact
         </div>
-
-        {/* Contact Card */}
-        <div className="bg-slate-950/60 backdrop-blur-sm border border-slate-800 rounded-2xl p-8">
-
-          {/* Availability */}
-          <div className="flex items-center gap-3 mb-8">
-            <Mail className="text-teal-400" size={22} />
-            <span className="text-white font-medium">
-              Open to security roles, internships, and contract work
-            </span>
-          </div>
-
-          {/* Success toast */}
-          {status === 'success' && (
-            <div className="mb-6 flex items-center gap-3 px-4 py-3 bg-teal-500/10 border border-teal-500/30 rounded-lg">
-              <CheckCircle size={20} className="text-teal-400 shrink-0" />
-              <p className="text-teal-400 text-sm">
-                Message sent! I'll get back to you soon. 🎉
-              </p>
-            </div>
-          )}
-
-          {/* Error / mailto fallback toast */}
-          {status === 'error' && (
-            <div className="mb-6 flex items-center gap-3 px-4 py-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
-              <AlertCircle size={20} className="text-amber-400 shrink-0" />
-              <p className="text-amber-400 text-sm">
-                Couldn't send automatically. Your email client has opened as a fallback — or email me directly at{' '}
-                <a href="mailto:work.fazalshaik@gmail.com" className="underline font-medium">
-                  work.fazalshaik@gmail.com
-                </a>
-              </p>
-            </div>
-          )}
-
-          {/* Form */}
-          <form onSubmit={handleSend} className="space-y-6">
-
-            <div className="grid sm:grid-cols-2 gap-6">
-              <input
-                type="text"
-                name="name"
-                required
-                placeholder="Your name"
-                value={formData.name}
-                onChange={handleChange}
-                disabled={status === 'sending'}
-                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors disabled:opacity-50"
-              />
-
-              <input
-                type="email"
-                name="email"
-                required
-                placeholder="Your email"
-                value={formData.email}
-                onChange={handleChange}
-                disabled={status === 'sending'}
-                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors disabled:opacity-50"
-              />
-            </div>
-
-            <input
-              type="text"
-              name="subject"
-              required
-              placeholder="Subject (e.g. SOC Internship / Security Project)"
-              value={formData.subject}
-              onChange={handleChange}
-              disabled={status === 'sending'}
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none transition-colors disabled:opacity-50"
-            />
-
-            <textarea
-              name="message"
-              required
-              rows={6}
-              placeholder="Write your message here..."
-              value={formData.message}
-              onChange={handleChange}
-              disabled={status === 'sending'}
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-white placeholder-gray-500 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 outline-none resize-none transition-colors disabled:opacity-50"
-            />
-
-            {/* CTA */}
-            <button
-              type="submit"
-              disabled={status === 'sending' || status === 'success'}
-              className="w-full px-8 py-4 bg-teal-500 text-white rounded-lg font-medium transition-all duration-300 hover:bg-teal-600 hover:shadow-lg hover:shadow-teal-500/40 flex items-center justify-center gap-2 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
-            >
-              {status === 'sending' ? (
-                <>
-                  <Loader2 size={18} className="animate-spin" />
-                  Sending...
-                </>
-              ) : status === 'success' ? (
-                <>
-                  <CheckCircle size={18} />
-                  Message Sent!
-                </>
-              ) : (
-                <>
-                  Send Message
-                  <Send size={18} />
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Direct Email */}
-          <div className="mt-8 pt-8 border-t border-slate-800 text-center">
-            <p className="text-gray-400 text-sm">
-              Prefer direct email?{' '}
-              <a
-                href="mailto:work.fazalshaik@gmail.com"
-                className="text-teal-400 hover:text-teal-300 transition-colors"
-              >
-                work.fazalshaik@gmail.com
-              </a>
-            </p>
-          </div>
-
-        </div>
+        <h2 className="ct-big font-display text-[clamp(3.5rem,11vw,10rem)] font-semibold leading-[0.92] tracking-[-0.04em]" data-cursor>
+          Let&apos;s <span className="font-serif-i text-signal">talk.</span>
+        </h2>
+        <p className="mx-auto mt-6 max-w-lg text-bone/60">Currently interning at Mitigata and open to SOC analyst and detection engineering roles. I usually reply within a day.</p>
+        <a href={`mailto:${EMAIL}`} className="mt-5 inline-block font-mono text-sm text-signal underline decoration-signal/40 underline-offset-8 hover:decoration-signal">{EMAIL}</a>
       </div>
+
+      <Glass as="form" onSubmit={submit} className="ct-card mx-auto max-w-3xl p-6 md:p-10">
+        <div className="grid gap-4 md:grid-cols-2">
+          <input className={field} placeholder="Name" required value={form.name} onChange={set('name')} aria-label="Name" />
+          <input className={field} type="email" placeholder="Email" required value={form.email} onChange={set('email')} aria-label="Email" />
+          <input className={`${field} md:col-span-2`} placeholder="Subject" value={form.subject} onChange={set('subject')} aria-label="Subject" />
+          <textarea className={`${field} min-h-[9rem] resize-none md:col-span-2`} placeholder="Message" required value={form.message} onChange={set('message')} aria-label="Message" />
+        </div>
+        <div className="mt-6 flex flex-wrap items-center gap-5">
+          <Magnetic>
+            <button type="submit" disabled={status === 'sending'} className="rounded-full bg-signal px-9 py-4 font-semibold text-ink transition-transform hover:scale-105 disabled:opacity-60">
+              {status === 'sending' ? 'Sending...' : 'Send message →'}
+            </button>
+          </Magnetic>
+          <span role="status" className="font-mono text-sm">
+            {status === 'sent' && <span className="text-signal">✓ delivered. talk soon.</span>}
+            {status === 'fallback' && <span className="text-bone/80">couldn&apos;t send, opened your mail client instead.</span>}
+          </span>
+        </div>
+      </Glass>
     </section>
   );
 }

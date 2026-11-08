@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/og-image.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#020617" />
+    <meta name="theme-color" content="#07080B" />
     <meta name="color-scheme" content="dark" />
 
     <!-- ============================================================
@@ -101,7 +101,8 @@
               "height": 400,
               "caption": "Fazal Shaik – Cyber Security Engineer"
             },
-            "jobTitle": "Cyber Security Engineer",
+            "jobTitle": "Cyber Security Consultant Intern",
+            "worksFor": { "@type": "Organization", "name": "Mitigata", "url": "https://www.mitigata.com" },
             "description": "Cyber Security Engineer specializing in SOC operations, SIEM detections, incident response, threat hunting, penetration testing, and cloud security on Azure.",
             "alumniOf": {
               "@type": "CollegeOrUniversity",
@@ -180,8 +181,8 @@
             "email": "work.fazalshaik@gmail.com",
             "address": {
               "@type": "PostalAddress",
-              "addressLocality": "Warangal",
-              "addressRegion": "Telangana",
+              "addressLocality": "Bengaluru",
+              "addressRegion": "Karnataka",
               "addressCountry": "IN"
             }
           },
@@ -296,34 +297,12 @@
     <!-- ============================================================
          PERFORMANCE: PRECONNECT & PRELOAD
     ============================================================ -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- Preload the profile image (above-the-fold LCP candidate) — WebP for modern browsers, JPEG fallback -->
-    <link rel="preload" as="image" href="/profile-pic-2.webp" type="image/webp" fetchpriority="high" />
-    <link rel="preload" as="image" href="/profile-pic-2.jpeg" fetchpriority="high" />
 
     <!-- ============================================================
          GOOGLE FONTS
     ============================================================ -->
     <!-- Non-render-blocking Google Fonts: load as print, swap to all on load -->
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
-
     <!-- ============================================================
          ADDITIONAL TECHNICAL SEO META
     ============================================================ -->
@@ -336,12 +315,7 @@
   </head>
 
   <body itemscope itemtype="https://schema.org/WebPage">
-    <!-- Skip to main content — keyboard/screen-reader accessibility -->
-    <a
-      href="#main"
-      class="sr-skip"
-    >Skip to main content</a>
-    <div id="root" id="main" role="main"></div>
+    <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

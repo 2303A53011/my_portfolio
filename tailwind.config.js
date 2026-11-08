@@ -1,48 +1,31 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  
   theme: {
     extend: {
-      animation: {
-        'fade-in': 'fadeIn 0.6s ease-out forwards',
-        'fadeIn': 'fadeIn 0.3s ease-out',
-        'fadeInUp': 'fadeInUp 0.6s ease-out forwards',
-        'fadeInRight': 'fadeInRight 0.6s ease-out forwards',
-        'spin-slow': 'spin 20s linear infinite',
-        'spin-reverse': 'spin-reverse 15s linear infinite',
+      fontFamily: {
+        sans: ['"Bricolage Grotesque Variable"', '"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
+        display: ['"Bricolage Grotesque Variable"', 'system-ui', 'sans-serif'],
+        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+      colors: {
+        slate: {
+          50: '#F5F6FA', 100: '#E8EAF0', 200: '#D3D7E0', 300: '#B3B9C6', 400: '#8E95A5',
+          500: '#6B7283', 600: '#3A4050', 700: '#252A37', 800: '#161A24', 900: '#0C0F16', 950: '#05060A',
         },
-        fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        fadeInRight: {
-          '0%': { opacity: '0', transform: 'translateX(-20px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
-        },
-        'spin-reverse': {
-          '0%': { transform: 'rotate(360deg)' },
-          '100%': { transform: 'rotate(0deg)' },
-        },
-        // --- New Glass/Cyber Keyframes ---
-        scan: {
-          '0%': { transform: 'translateY(-120px)', opacity: '0' },
-          '50%': { opacity: '0.5' },
-          '100%': { transform: 'translateY(120px)', opacity: '0' },
-        },
-        progress: {
-          '0%': { width: '0%', marginLeft: '0%' },
-          '50%': { width: '100%', marginLeft: '0%' },
-          '100%': { width: '0%', marginLeft: '100%' },
-        },
+        teal: { 300: '#9CFFE6', 400: '#4DFFD2', 500: '#1FE6B8', 600: '#12B793' },
+        purple: { 500: '#4DFFD2' },
+        ink: '#05060A',
+        panel: '#0C0F16',
+        line: '#1C2130',
+        bone: '#F5F6FA',
+        signal: '#4DFFD2',
+        gold: '#C9CEDB',
+        alert: '#FF5C7A',
+        mute: '#7B8294',
       },
     },
   },
   plugins: [],
 };
-

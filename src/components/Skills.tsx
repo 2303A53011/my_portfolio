@@ -1,141 +1,94 @@
+import { useEffect, useRef, useState } from 'react';
+import { gsap, useGSAP, prefersReduced } from '../lib/gsap';
 import { SkillGroup } from '../types';
-import { useInView } from '../hooks/useInView';
+import Heading from './Heading';
+import Glass from './Glass';
 
-interface SkillsProps {
-  skillGroups: SkillGroup[];
-}
+export default function Skills({ skillGroups }: { skillGroups: SkillGroup[] }) {
+  const root = useRef<HTMLElement>(null);
+  const [cat, setCat] = useState(0);
+  const [hover, setHover] = useState<string | null>(null);
+  const g = skillGroups[cat];
+  const shown = hover ? g.skills.find((s) => s.name === hover) : null;
 
-const categoryMeta: Record<string, { icon: string; color: string; glow: string; border: string; bg: string }> = {
-  'Offensive Security': {
-    icon: '⚔️',
-    color: 'text-rose-400',
-    glow: 'shadow-rose-500/40',
-    border: 'border-rose-500/50',
-    bg: 'bg-rose-500/8',
-  },
-  'Defensive Operations': {
-    icon: '🛡️',
-    color: 'text-teal-400',
-    glow: 'shadow-teal-500/40',
-    border: 'border-teal-500/50',
-    bg: 'bg-teal-500/8',
-  },
-  'Cloud & Infrastructure': {
-    icon: '☁️',
-    color: 'text-sky-400',
-    glow: 'shadow-sky-500/40',
-    border: 'border-sky-500/50',
-    bg: 'bg-sky-500/8',
-  },
-  'Scripting & Languages': {
-    icon: '💻',
-    color: 'text-violet-400',
-    glow: 'shadow-violet-500/40',
-    border: 'border-violet-500/50',
-    bg: 'bg-violet-500/8',
-  },
-  'Research & Writing': {
-    icon: '📝',
-    color: 'text-amber-400',
-    glow: 'shadow-amber-500/40',
-    border: 'border-amber-500/50',
-    bg: 'bg-amber-500/8',
-  },
-};
+  useGSAP(
+    () => {
+      if (prefersReduced()) return;
+      gsap.from('.sk-shell', { opacity: 0, y: 60, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: '.sk-shell', start: 'top 85%' } });
+    },
+    { scope: root }
+  );
 
-const fallbackMeta = categoryMeta['Defensive Operations'];
-
-export default function Skills({ skillGroups }: SkillsProps) {
-  const { ref, isInView } = useInView({ threshold: 0.07 });
+  // chips pop in whenever the category changes
+  useEffect(() => {
+    if (prefersReduced() || !root.current) return;
+    const chips = root.current.querySelectorAll('.sk-chip');
+    const t = gsap.fromTo(chips, { opacity: 0, y: 24, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, stagger: 0.035, duration: 0.6, ease: 'back.out(1.6)', clearProps: 'transform' });
+    return () => {
+      t.kill();
+    };
+  }, [cat]);
 
   return (
-    <section
-      id="skills"
-      className="relative py-24 bg-slate-950 overflow-hidden"
-      aria-label="Technical skills of Fazal Shaik"
-      itemScope
-      itemType="https://schema.org/ItemList"
-    >
-      {/* Scan-line texture */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.012) 2px, rgba(255,255,255,0.012) 4px)',
-        }}
-      />
+    <section ref={root} id="skills" className="relative z-10 mx-auto max-w-7xl px-5 py-28 md:px-10 md:py-36">
+      <Heading n="02" kicker="Skills" title="The" italic="toolkit." />
 
-      {/* Ambient glows */}
-      <div className="pointer-events-none absolute top-0 left-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-[120px]" />
-      <div className="pointer-events-none absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/5 rounded-full blur-[120px]" />
-
-      <div ref={ref} className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Header */}
-        <div className={`text-center mb-16 transition-all duration-700 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-            Technical <span className="text-teal-400">Arsenal</span>
-          </h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-teal-400 to-purple-500 rounded-full mx-auto mb-6" />
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Core capabilities across offensive security, blue team operations, and cloud environments
-          </p>
+      <Glass className="sk-shell grid lg:grid-cols-[300px_1fr]">
+        <div className="flex gap-1 overflow-x-auto border-b border-white/10 p-3 lg:flex-col lg:border-b-0 lg:border-r lg:p-4">
+          {skillGroups.map((s, i) => (
+            <button
+              key={s.category}
+              onClick={() => setCat(i)}
+              className={`group flex shrink-0 items-center justify-between gap-4 rounded-2xl px-4 py-3 text-left transition-all ${i === cat ? 'bg-white text-ink' : 'text-bone/65 hover:bg-white/10 hover:text-bone'}`}
+            >
+              <span className="font-display text-lg font-semibold leading-tight tracking-tight">{s.category}</span>
+              <span className={`font-mono text-[11px] ${i === cat ? 'text-ink/50' : 'text-bone/30'}`}>{String(s.skills.length).padStart(2, '0')}</span>
+            </button>
+          ))}
         </div>
 
-        {/* Skill domain blocks */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {skillGroups.map((group, gi) => {
-            const meta = categoryMeta[group.category] ?? fallbackMeta;
-            return (
-              <div
-                key={group.category}
-                className={`rounded-2xl border border-slate-800 bg-slate-900/50 backdrop-blur-sm p-6
-                  transition-all duration-700
-                  ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                style={{ transitionDelay: `${gi * 130 + 150}ms` }}
-              >
-                {/* Category label */}
-                <div className="flex items-center gap-2.5 mb-5">
-                  <span className="text-2xl">{meta.icon}</span>
-                  <h3 className={`text-sm font-bold tracking-widest uppercase ${meta.color}`}>
-                    {group.category}
-                  </h3>
-                  <div className="flex-1 h-px bg-slate-800" />
-                </div>
+        <div className="flex min-h-[420px] flex-col p-6 md:p-10">
+          <div className="mb-8 flex items-end justify-between gap-4">
+            <div className="font-serif-i text-[clamp(2.4rem,5vw,4.2rem)] leading-none text-bone">{g.category}</div>
+            <div className="font-mono text-[11px] uppercase tracking-widest text-bone/40">{g.skills.length} tools</div>
+          </div>
+          <div className="flex flex-wrap content-start gap-3">
+            {g.skills.map((s) => {
+              const strong = (s.proficiency ?? 0) >= 80;
+              return (
+                <button
+                  key={s.name}
+                  className={`sk-chip rounded-full border px-5 py-3 text-[15px] font-medium transition-all duration-300 hover:-translate-y-1 hover:border-signal hover:bg-signal hover:text-ink hover:shadow-[0_10px_40px_-10px_#4DFFD2] ${
+                    strong ? 'border-signal/50 bg-signal/10 text-bone' : 'border-white/15 bg-white/5 text-bone/80'
+                  }`}
+                  onMouseEnter={() => setHover(s.name)}
+                  onMouseLeave={() => setHover(null)}
+                  onFocus={() => setHover(s.name)}
+                  onBlur={() => setHover(null)}
+                >
+                  {s.name}
+                </button>
+              );
+            })}
+          </div>
 
-                {/* Skill tags — name only */}
-                <div className="flex flex-wrap gap-2.5">
-                  {group.skills.map((skill, si) => (
-                    <span
-                      key={skill.name}
-                      className={`
-                        inline-flex items-center px-4 py-2 rounded-xl
-                        border ${meta.border} ${meta.bg}
-                        text-white text-sm font-medium
-                        hover:shadow-lg hover:${meta.glow} hover:-translate-y-0.5
-                        transition-all duration-300 cursor-default
-                        ${isInView ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
-                      style={{ transitionDelay: `${gi * 130 + si * 70 + 300}ms` }}
-                      itemProp="name"
-                    >
-                      {skill.name}
-                    </span>
-                  ))}
+          <div className="mt-auto pt-10">
+            <div className="flex min-h-[4.5rem] items-start gap-4 border-t border-white/10 pt-5">
+              <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-signal shadow-[0_0_12px_#4DFFD2]" />
+              {shown ? (
+                <div>
+                  <div className="font-display text-xl font-semibold tracking-tight">
+                    {shown.name} <span className="font-serif-i ml-2 text-lg text-signal">{shown.level}</span>
+                  </div>
+                  <div className="mt-1 text-sm text-bone/60">{shown.tooltip}</div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Footer note */}
-        <div className={`mt-12 text-center transition-all duration-700 delay-700 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <div className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900/80 rounded-full border border-teal-500/30">
-            <span className="text-teal-400 text-sm font-mono">
-              ▶ Continuously learning, building, and refining real-world security skills
-            </span>
+              ) : (
+                <div className="font-mono text-xs uppercase tracking-widest text-bone/40">Hover a tool · glowing = daily drivers</div>
+              )}
+            </div>
           </div>
         </div>
-
-      </div>
+      </Glass>
     </section>
   );
 }

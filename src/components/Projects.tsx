@@ -1,188 +1,109 @@
-import { useState, useRef } from 'react';
-import { Github, ChevronDown, ChevronUp } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { ArrowUpRight, X } from 'lucide-react';
+import { gsap, useGSAP, prefersReduced } from '../lib/gsap';
+import { lockScroll } from '../lib/lenis';
 import { Project } from '../types';
-import { useInView } from '../hooks/useInView';
+import Heading from './Heading';
+import Glass from './Glass';
 
-interface ProjectsProps {
-  projects: Project[];
-  githubUrl: string;
-}
-
-function ProjectCard({ project, index, isInView }: { project: Project; index: number; isInView: boolean }) {
-  const [expanded, setExpanded] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const cardRef = useRef<HTMLElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -6;
-    const rotateY = ((x - centerX) / centerX) * 6;
-    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-  };
-
-  const handleMouseLeave = () => {
-    const card = cardRef.current;
-    if (card) card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-  };
-
-  return (
-    <article
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className={`bg-slate-950/80 backdrop-blur-md border border-slate-800 rounded-2xl overflow-hidden hover:border-teal-500/40 transition-all duration-500 flex flex-col hover:shadow-2xl hover:shadow-teal-500/10 ${
-        isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
-      style={{
-        transitionDelay: `${index * 120 + 200}ms`,
-        willChange: 'transform',
-        transformStyle: 'preserve-3d',
-      }}
-    >
-      {/* Image with skeleton */}
-      <div className="h-44 bg-slate-900 overflow-hidden relative">
-        {!imageLoaded && (
-          <div className="absolute inset-0 bg-slate-800 animate-pulse" />
-        )}
-        <img
-          src={project.image}
-          alt={`${project.title} – cybersecurity project by Fazal Shaik`}
-          title={project.title}
-          loading="lazy"
-          decoding="async"
-          width="400"
-          height="176"
-          itemProp="image"
-          className={`w-full h-full object-cover transition-all duration-500 ${
-            imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-          }`}
-          onLoad={() => setImageLoaded(true)}
-        />
-      </div>
-
-      {/* Body */}
-      <div className="p-6 flex flex-col gap-5 flex-1">
-
-        {/* Title */}
-        <h3 className="text-xl font-bold text-white leading-snug">
-          {project.title}
-        </h3>
-
-        {/* Description — expandable */}
-        <div>
-          <p className={`text-gray-400 text-sm leading-relaxed transition-all duration-300 ${
-            expanded ? '' : 'line-clamp-3'
-          }`}>
-            {project.description}
-          </p>
-          {project.description.length > 150 && (
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="flex items-center gap-1 text-teal-400 hover:text-teal-300 text-xs font-medium mt-2 transition-colors"
-            >
-              {expanded ? 'Show less' : 'Read more'}
-              {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-            </button>
-          )}
-        </div>
-
-        {/* Built With */}
-        <div>
-          <p className="text-xs uppercase tracking-wide text-gray-500 mb-2">
-            Built With
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {project.stack.map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1 bg-slate-800 text-gray-400 text-xs rounded-lg font-mono hover:text-teal-400 hover:border-teal-500/30 border border-transparent transition-colors"
-              >
-                {tech}
-              </span>
-            ))}
+function Modal({ p, onClose }: { p: Project; onClose: () => void }) {
+  useEffect(() => {
+    lockScroll(true);
+    const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    window.addEventListener('keydown', k);
+    return () => {
+      lockScroll(false);
+      window.removeEventListener('keydown', k);
+    };
+  }, [onClose]);
+  const [head, sub] = p.title.split(' – ');
+  return createPortal(
+    <div className="fixed inset-0 z-[960] flex items-center justify-center bg-ink/75 p-3 backdrop-blur-xl sm:p-6" onClick={onClose} role="dialog" aria-modal="true" aria-label={p.title}>
+      <div className="relative flex max-h-[92vh] w-full max-w-3xl flex-col rounded-[28px] border border-white/10 bg-panel/95 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.9)]" onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-ink/80 backdrop-blur transition-colors hover:bg-signal hover:text-ink" aria-label="Close">
+          <X size={18} />
+        </button>
+        <div data-lenis-prevent className="min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-[28px]">
+          {p.image && <img src={p.image} alt={p.title} className="aspect-[16/8] w-full object-cover object-top" />}
+          <div className="p-6 md:p-10">
+            <h3 className="font-display text-3xl font-semibold tracking-tight md:text-5xl">{head}</h3>
+            {sub && <div className="font-serif-i mt-1 text-2xl text-signal">{sub}</div>}
+            <p className="mt-4 text-lg text-bone/85">{p.tagline}</p>
+            <p className="mt-4 leading-relaxed text-bone/60">{p.description}</p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {p.stack.map((s) => (
+                <span key={s} className="rounded-full border border-white/15 px-3 py-1 text-xs text-bone/70">{s}</span>
+              ))}
+            </div>
+            {p.githubLink && (
+              <a href={p.githubLink} target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-full bg-signal px-6 py-3 font-semibold text-ink transition-transform hover:scale-105">
+                View source <ArrowUpRight size={16} />
+              </a>
+            )}
           </div>
         </div>
-
-        {/* GitHub Button */}
-        {project.githubLink && (
-          <a
-            href={project.githubLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-auto inline-flex items-center justify-center gap-2 px-4 py-3 bg-teal-500/10 text-teal-400 rounded-lg border border-teal-500/30 hover:bg-teal-500 hover:text-white transition-all duration-300"
-          >
-            <Github size={16} />
-            View Project
-          </a>
-        )}
       </div>
-    </article>
+    </div>,
+    document.body
   );
 }
 
-export default function Projects({ projects, githubUrl }: ProjectsProps) {
-  const { ref, isInView } = useInView({ threshold: 0.05 });
+export default function Projects({ projects, githubUrl }: { projects: Project[]; githubUrl: string }) {
+  const root = useRef<HTMLElement>(null);
+  const [active, setActive] = useState<Project | null>(null);
+
+  useGSAP(
+    () => {
+      if (prefersReduced()) return;
+      gsap.utils.toArray<HTMLElement>('.pj-card').forEach((c) =>
+        gsap.from(c, { opacity: 0, y: 70, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: c, start: 'top 90%' } })
+      );
+      gsap.utils.toArray<HTMLElement>('.pj-img').forEach((img) =>
+        gsap.fromTo(img, { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: img, start: 'top bottom', end: 'bottom top', scrub: true } })
+      );
+    },
+    { scope: root }
+  );
+
+  // bento spans: big, small, small, big...
+  const spans = ['lg:col-span-8', 'lg:col-span-4', 'lg:col-span-4', 'lg:col-span-8'];
 
   return (
-    <section
-      id="projects"
-      className="relative py-24 bg-slate-950"
-      aria-label="Cybersecurity projects and security research by Fazal Shaik"
-      itemScope
-      itemType="https://schema.org/ItemList"
-    >
-      <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Header */}
-        <div
-          className={`text-center mb-16 transition-all duration-700 ${
-            isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4" itemProp="name">
-            Featured <span className="text-teal-400">Projects</span>
-          </h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-teal-400 to-purple-500 rounded-full mx-auto mb-6" />
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Hands-on security projects focused on SOC operations, detection, and incident response
-          </p>
-        </div>
-
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={index}
-              isInView={isInView}
-            />
-          ))}
-        </div>
-
-        {/* Global GitHub */}
-        <div
-          className={`text-center mt-16 transition-all duration-700 delay-500 ${
-            isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <a
-            href="https://github.com/shaikfazal-del?tab=repositories"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-teal-500 text-white rounded-lg font-medium hover:bg-teal-600 transition-all hover:shadow-lg hover:shadow-teal-500/30 hover:-translate-y-0.5"
-          >
-            <Github size={20} />
-            View All Projects on GitHub
-          </a>
-        </div>
+    <section ref={root} id="projects" className="relative z-10 mx-auto max-w-7xl px-5 py-28 md:px-10 md:py-36">
+      <Heading n="04" kicker="Projects" title="Things I've" italic="built." />
+      <div className="grid gap-5 lg:grid-cols-12">
+        {projects.map((p, i) => {
+          const big = i % 4 === 0 || i % 4 === 3;
+          return (
+            <Glass key={p.id} role="button" tabIndex={0} onClick={() => setActive(p)} onKeyDown={(e: React.KeyboardEvent) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), setActive(p))} data-cursor className={`pj-card group flex cursor-pointer flex-col text-left ${spans[i % 4]}`}>
+              {p.image && (
+                <div className={`relative overflow-hidden ${big ? 'aspect-[16/8]' : 'aspect-[16/10]'}`}>
+                  <img src={p.image} alt="" loading="lazy" className="pj-img absolute inset-x-0 -top-[6%] h-[112%] w-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
+                  <span className="absolute left-5 top-5 rounded-full border border-white/20 bg-ink/50 px-3 py-1 font-mono text-[10px] uppercase tracking-widest backdrop-blur">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-bone text-ink opacity-0 transition-all duration-300 group-hover:rotate-45 group-hover:opacity-100">
+                    <ArrowUpRight size={18} />
+                  </span>
+                </div>
+              )}
+              <div className="flex flex-1 flex-col p-6">
+                <h3 className={`font-display font-semibold leading-tight tracking-tight ${big ? 'text-3xl' : 'text-2xl'}`}>{p.title.split(' – ')[0]}</h3>
+                <p className="mt-2 line-clamp-2 text-sm text-bone/60">{p.tagline}</p>
+                <div className="mt-auto flex flex-wrap gap-1.5 pt-5">
+                  {p.tags.slice(0, 3).map((t) => (
+                    <span key={t} className="rounded-full border border-white/15 px-2.5 py-0.5 text-[11px] text-bone/60">{t}</span>
+                  ))}
+                </div>
+              </div>
+            </Glass>
+          );
+        })}
       </div>
+      <a href={githubUrl} target="_blank" rel="noopener noreferrer" className="mt-10 inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-medium transition-colors hover:border-signal hover:text-signal">
+        More on GitHub <ArrowUpRight size={15} />
+      </a>
+      {active && <Modal p={active} onClose={() => setActive(null)} />}
     </section>
   );
 }
